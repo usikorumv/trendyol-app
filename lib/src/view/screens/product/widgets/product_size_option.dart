@@ -34,14 +34,12 @@ class _ProductSizeOptionState extends State<ProductSizeOption> {
     } else {
       _optionState = OptionState.Disabled;
     }
-    print(_optionState);
 
     return GestureDetector(
       onTap: () {
         if (_optionState == OptionState.Disabled) return;
 
         setState(() {
-          print(widget.currentID);
           widget.onTap(widget.id);
         });
       },

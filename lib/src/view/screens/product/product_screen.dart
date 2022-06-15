@@ -17,8 +17,6 @@ import '../../../models/product/product.dart';
 import 'widgets/product_image_options.dart';
 import 'widgets/product_size_option.dart';
 
-// TODO: REFACTOR
-
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key, required this.productId}) : super(key: key);
 
@@ -44,7 +42,6 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
       child: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
-          
           if (state is ProductLoading) {
             return const Scaffold(
               backgroundColor: kPrimaryColor,
@@ -54,8 +51,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
           if (state is ProductLoaded) {
             Product product = state.product;
-            print("AFFPFAPAFPF");
-            print(product);
+            print(product.colors);
             return content(product);
           }
 
@@ -111,7 +107,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                 ],
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -224,36 +220,37 @@ class _ProductScreenState extends State<ProductScreen> {
                         ],
                       ),
                     ),
-                    if (product.colors!.isNotEmpty)
-                      Column(
-                        children: [
-                          SizedBox(height: 10),
-                          TitleAndWidget(
-                            title: "Цвет",
-                            child: SingleChildScrollView(
-                              padding: EdgeInsets.only(left: 20),
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  for (int i = 0;
-                                      i < product.colors!.length;
-                                      i++)
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 10),
-                                      child: ProductImageOption(
-                                        id: i,
-                                        imgUrl: product.imageUrls[0], //BABABA
-                                        onTap: (index) =>
-                                            _currentProductColorID,
-                                        isSelected: _currentProductColorID == i,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    // TODO make colors
+                    // if (product.colors!.isNotEmpty)
+                    //   Column(
+                    //     children: [
+                    //       SizedBox(height: 10),
+                    //       TitleAndWidget(
+                    //         title: "Цвет",
+                    //         child: SingleChildScrollView(
+                    //           padding: EdgeInsets.only(left: 20),
+                    //           scrollDirection: Axis.horizontal,
+                    //           child: Row(
+                    //             children: [
+                    //               for (int i = 0;
+                    //                   i < product.colors!.length;
+                    //                   i++)
+                    //                 Padding(
+                    //                   padding: EdgeInsets.only(right: 10),
+                    //                   child: ProductImageOption(
+                    //                     id: i,
+                    //                     imgUrl: product.imageUrls[0], //BABABA
+                    //                     onTap: (index) =>
+                    //                         _currentProductColorID,
+                    //                     isSelected: _currentProductColorID == i,
+                    //                   ),
+                    //                 ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
                     Column(
                       children: [
                         SizedBox(height: 10),

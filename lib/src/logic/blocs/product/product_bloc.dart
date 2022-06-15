@@ -13,7 +13,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<LoadProduct>((event, emit) async {
       // try {
       final Product product = await _productsService.fetchProduct(event.id);
-      print(product);
       emit(ProductLoaded(product: product));
       // } catch (e) {
       //   print(e);

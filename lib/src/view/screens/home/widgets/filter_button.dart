@@ -52,7 +52,6 @@ class FilterButton extends StatelessWidget {
               Spacer(),
               IconButton(
                 onPressed: () {
-                  print("CLICKED");
                   onTap(drawer);
                 },
                 splashRadius: 20,

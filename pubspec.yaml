@@ -46,6 +46,10 @@ dependencies:
 
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
+  hydrated_bloc: ^8.1.0
+  internet_connection_checker: ^0.0.1+4
+  sizer: ^2.0.15
+  path_provider: ^2.0.11
 
 
 

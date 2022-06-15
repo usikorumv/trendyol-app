@@ -9,8 +9,6 @@ import 'pages/favorite_page.dart';
 import 'pages/home/home_page.dart';
 import 'pages/profile_page.dart';
 
-// TODO: FILTER DRAWER
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -27,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  final List _body = const [
+  final List<Widget> _body = const [
     HomePage(),
     CategoriesPage(),
     FavoritesPage(),
@@ -53,7 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: _appBar[_selectedIndex],
           endDrawerEnableOpenDragGesture: false,
           endDrawer: FilterDrawer(),
-          body: _body[_selectedIndex],
+          body: IndexedStack(
+            children: _body,
+            index: _selectedIndex,
+          ),
           bottomNavigationBar: BottomNavigationBar(
             showSelectedLabels: false,
             showUnselectedLabels: false,
