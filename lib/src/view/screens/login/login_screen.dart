@@ -6,7 +6,9 @@ import 'package:sizer/sizer.dart';
 import 'package:trendyol_market/src/view/screens/home/home_screen.dart';
 import 'package:trendyol_market/src/view/screens/login/sign_up_screen.dart';
 
-import '../../../logic/auth/auth_bloc.dart';
+import '../../../logic/blocs/auth/auth_bloc.dart';
+
+
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
