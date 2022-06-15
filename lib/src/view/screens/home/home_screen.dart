@@ -36,9 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final List _appBar = [
     HomePage.appBar,
     CategoriesPage.appBar,
-    PreferredSize(child: SizedBox(), preferredSize: Size.zero),
-    PreferredSize(child: SizedBox(), preferredSize: Size.zero),
-    PreferredSize(child: SizedBox(), preferredSize: Size.zero),
+    const PreferredSize(child: SizedBox(), preferredSize: Size.zero),
+    const PreferredSize(child: SizedBox(), preferredSize: Size.zero),
+    const PreferredSize(child: SizedBox(), preferredSize: Size.zero),
   ];
 
   @override
@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: kPrimaryColor,
           appBar: _appBar[_selectedIndex],
           endDrawerEnableOpenDragGesture: false,
-          endDrawer: FilterDrawer(),
+          endDrawer: const FilterDrawer(),
           body: IndexedStack(
             children: _body,
             index: _selectedIndex,

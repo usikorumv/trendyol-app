@@ -27,13 +27,18 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  late int _currentProductColorID, _currentProductSizeID;
+  late int _currentColorID, _currentSizeID;
+
+  @override
+  initState() {
+    super.initState();
+
+    _currentColorID = 0;
+    _currentSizeID = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
-    _currentProductColorID = 0;
-    _currentProductSizeID = 0;
-
     return BlocProvider(
       create: (context) => ProductBloc(
         RepositoryProvider.of<ProductsService>(context),
@@ -45,13 +50,18 @@ class _ProductScreenState extends State<ProductScreen> {
           if (state is ProductLoading) {
             return const Scaffold(
               backgroundColor: kPrimaryColor,
-              body: CircularProgressIndicator(),
+              body: Center(child: CircularProgressIndicator()),
             );
           }
 
           if (state is ProductLoaded) {
             Product product = state.product;
-            print(product.colors);
+
+            // _currentColorID = 0;
+            // dynamic a = product.sizes.map((size) => size.value).toList().indexOf("aaaaa");
+            // _currentProductSizeID = product.sizes.map((size) => size.value).toList().indexOf(product.showSize);
+            // _currentProductSizeID = 0;
+
             return content(product);
           }
 
@@ -91,7 +101,7 @@ class _ProductScreenState extends State<ProductScreen> {
           height: 50,
           width: MediaQuery.of(context).size.width,
           color: kPrimaryColor,
-          padding: EdgeInsets.only(left: 12, right: 4),
+          padding: const EdgeInsets.only(left: 12, right: 4),
           child: Row(
             children: [
               Column(
@@ -114,7 +124,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     elevation: 0,
                     primary: kSecondaryColor,
                   ),
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 12),
                     child: Text(
                       "Добавить в корзину",
@@ -141,7 +151,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   expandedHeight: 600,
                   leading: IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios_new,
                       size: 30,
                     ),
@@ -163,12 +173,12 @@ class _ProductScreenState extends State<ProductScreen> {
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.share_rounded,
                         size: 30,
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                   ],
                   // flexibleSpace: FlexibleSpaceBar(
                   //   background: Image.network(
@@ -183,24 +193,24 @@ class _ProductScreenState extends State<ProductScreen> {
               // controller: controller,
               child: Container(
                 color: kPrimaryColor,
-                padding: EdgeInsets.only(top: 20, bottom: 20),
+                padding: const EdgeInsets.only(top: 20, bottom: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(left: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             product.name,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: kTextColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(height: 11),
+                          const SizedBox(height: 11),
                           Row(
                             children: [
                               RatingBar(
@@ -208,10 +218,10 @@ class _ProductScreenState extends State<ProductScreen> {
                                 maxRating: 5,
                                 filledColor: kSecondaryColor,
                               ),
-                              SizedBox(width: 7.19),
+                              const SizedBox(width: 7.19),
                               Text(
                                 "|  Коментарии (${product.feedbacksCount})",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: kTextColor,
                                 ),
                               ),
@@ -253,25 +263,29 @@ class _ProductScreenState extends State<ProductScreen> {
                     //   ),
                     Column(
                       children: [
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         TitleAndWidget(
                           title: "Размер",
                           child: // TODO: MAKE SIZE CHOOSING AND CHANGE STATES BY CLICKING THEM
                               SingleChildScrollView(
-                            padding: EdgeInsets.only(left: 20),
+                            padding: const EdgeInsets.only(left: 20),
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
                                 for (int i = 0; i < product.sizes.length; i++)
                                   Padding(
-                                      padding: EdgeInsets.only(right: 10),
-                                      child: ProductSizeOption(
-                                        id: i,
-                                        currentID: _currentProductSizeID,
-                                        size: product.sizes[i].name, //BABABA
-                                        onTap: (index) =>
-                                            _currentProductColorID = index,
-                                        inStock: product.sizes[i].inStock,
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          _currentSizeID = i;
+                                          setState(() {});
+                                        },
+                                        child: ProductSizeOption(
+                                          id: i,
+                                          currentId: _currentSizeID,
+                                          size: product.sizes[i].name,
+                                          inStock: product.sizes[i].inStock,
+                                        ),
                                       )),
                               ],
                             ),
@@ -279,17 +293,17 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 13),
-                    Divider(
+                    const SizedBox(height: 13),
+                    const Divider(
                       color: Color(0xFFADABAB),
                       thickness: 1,
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(15, 21, 20, 18),
+                      padding: const EdgeInsets.fromLTRB(15, 21, 20, 18),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Описание",
                             style: TextStyle(
                               color: kTextColor,
@@ -297,7 +311,7 @@ class _ProductScreenState extends State<ProductScreen> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(height: 23),
+                          const SizedBox(height: 23),
                           for (int i = 0;
                               i < product.description.split("\n").length;
                               i++)
@@ -306,32 +320,33 @@ class _ProductScreenState extends State<ProductScreen> {
                                 children: [
                                   Text(
                                     "• " + product.description.split("\n")[i],
-                                    style:
-                                        TextStyle().copyWith(color: kTextColor),
+                                    style: const TextStyle()
+                                        .copyWith(color: kTextColor),
                                   ),
-                                  SizedBox(height: 21),
+                                  const SizedBox(height: 21),
                                 ],
                               )
                             else
                               Text(
                                 "• " + product.description.split("\n")[i],
-                                style: TextStyle().copyWith(color: kTextColor),
+                                style: const TextStyle()
+                                    .copyWith(color: kTextColor),
                               ),
                         ],
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Color(0xFFADABAB),
                       thickness: 1,
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(12, 20, 20, 19),
+                      padding: const EdgeInsets.fromLTRB(12, 20, 20, 19),
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 7),
+                            padding: const EdgeInsets.symmetric(horizontal: 7),
                             child: Row(
-                              children: [
+                              children: const [
                                 Text(
                                   "Отзывы",
                                   style: TextStyle(
@@ -344,56 +359,56 @@ class _ProductScreenState extends State<ProductScreen> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 7),
+                          const SizedBox(height: 7),
                           Container(
                             color: kLightGreyColor[0],
-                            padding: EdgeInsets.symmetric(vertical: 22),
+                            padding: const EdgeInsets.symmetric(vertical: 22),
                             child: Row(
                               children: [
-                                Spacer(),
+                                const Spacer(),
                                 Text(
                                   product.rating.toString(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: kTextColor,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                SizedBox(width: 12),
+                                const SizedBox(width: 12),
                                 RatingBar(
                                   filledColor: kSecondaryColor,
                                   currentRating: product.rating.floor(),
                                   maxRating: 5,
                                   size: 18,
                                 ),
-                                SizedBox(width: 17),
+                                const SizedBox(width: 17),
                                 Text(
                                   "${product.feedbacksCount.toString()} Ratings & Reviews",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: kTextColor,
                                       letterSpacing: 0.5 * 0.16),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                               ],
                             ),
                           ),
-                          SizedBox(height: 23),
+                          const SizedBox(height: 23),
                           for (int i = 0; i < 1; i++)
                             if (i != 0)
                               Column(
                                 children: [
-                                  SizedBox(height: 40),
+                                  const SizedBox(height: 40),
                                   FeedbackCard(feedback: product.feedbacks[i]),
                                 ],
                               )
                             else
                               FeedbackCard(feedback: product.feedbacks[i]),
-                          SizedBox(height: 28),
+                          const SizedBox(height: 28),
                           RichText(
                             text: TextSpan(
                               text: "View all",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: kSecondaryColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -407,14 +422,14 @@ class _ProductScreenState extends State<ProductScreen> {
                         ],
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Color(0xFFADABAB),
                       thickness: 1,
                     ),
                     if (product.crossProducts.length > 0)
                       Column(
                         children: [
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           TitleAndProducts(
                               title: "Похожие товары",
                               products: product.crossProducts),
@@ -423,7 +438,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     if (product.recommendationProducts.length > 0)
                       Column(
                         children: [
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           TitleAndProducts(
                               title: "Вместе с этим покупают",
                               products: product.recommendationProducts),

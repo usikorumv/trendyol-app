@@ -27,7 +27,6 @@ class ProductCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        // TODO: ADD HERO TRANSITION TO PRODUCT SCREEN
         Navigator.push(
           context,
           MaterialPageRoute(
