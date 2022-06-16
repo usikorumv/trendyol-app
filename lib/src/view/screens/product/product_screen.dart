@@ -7,6 +7,7 @@ import 'package:trendyol_market/src/logic/blocs/product/product_bloc.dart';
 import 'package:trendyol_market/src/view/components/rating_bar.dart';
 import 'package:trendyol_market/src/view/constants/colors.dart';
 import 'package:trendyol_market/src/view/constants/styles.dart';
+import 'package:trendyol_market/src/view/screens/product/option_state.dart';
 
 import 'package:trendyol_market/src/view/screens/product/widgets/feedback_card.dart';
 import 'package:trendyol_market/src/view/screens/product/widgets/title_and_products.dart';
@@ -27,15 +28,7 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  late int _currentColorID, _currentSizeID;
-
-  @override
-  initState() {
-    super.initState();
-
-    _currentColorID = 0;
-    _currentSizeID = 0;
-  }
+  int? _currentColorID, _currentSizeID;
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +50,9 @@ class _ProductScreenState extends State<ProductScreen> {
           if (state is ProductLoaded) {
             Product product = state.product;
 
-            // _currentColorID = 0;
-            // dynamic a = product.sizes.map((size) => size.value).toList().indexOf("aaaaa");
-            // _currentProductSizeID = product.sizes.map((size) => size.value).toList().indexOf(product.showSize);
-            // _currentProductSizeID = 0;
+            _currentColorID = 0;
+            _currentSizeID ??= (product.sizes.map((size) => size.slug).toList())
+                .indexOf(product.startProductSize);
 
             return content(product);
           }
@@ -145,15 +137,24 @@ class _ProductScreenState extends State<ProductScreen> {
           child: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
+              return [
                 SliverAppBar(
                   backgroundColor: Colors.transparent,
-                  expandedHeight: 600,
+                  expandedHeight: MediaQuery.of(context).size.height - 200,
                   leading: IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 30,
+                    icon: Stack(
+                      children: const [
+                        Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 32,
+                          color: Colors.black,
+                        ),
+                        Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 30,
+                        ),
+                      ],
                     ),
                   ),
                   actions: [
@@ -165,27 +166,45 @@ class _ProductScreenState extends State<ProductScreen> {
                                 color: kRedColor,
                                 size: 30,
                               )
-                            : const Icon(
-                                Icons.favorite_outline_rounded,
-                                size: 30,
+                            : Stack(
+                                children: const [
+                                  Icon(
+                                    Icons.favorite_outline_rounded,
+                                    size: 32,
+                                    color: Colors.black,
+                                  ),
+                                  Icon(
+                                    Icons.favorite_outline_rounded,
+                                    size: 30,
+                                  ),
+                                ],
                               );
                       },
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: const Icon(
-                        Icons.share_rounded,
-                        size: 30,
+                      icon: Stack(
+                        children: const [
+                          Icon(
+                            Icons.share_rounded,
+                            size: 32,
+                            color: Colors.black,
+                          ),
+                          Icon(
+                            Icons.share_rounded,
+                            size: 30,
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(width: 16),
                   ],
-                  // flexibleSpace: FlexibleSpaceBar(
-                  //   background: Image.network(
-                  //     product.imageUrls[0], // ABOBA
-                  //     fit: BoxFit.cover,
-                  //   ),
-                  // ),
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Image.network(
+                      product.imageUrls[0], // ABOBA
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ];
             },
@@ -230,7 +249,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         ],
                       ),
                     ),
-                    // TODO make colors
+                    // TODO: make colors
                     // if (product.colors!.isNotEmpty)
                     //   Column(
                     //     children: [
@@ -266,8 +285,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         const SizedBox(height: 10),
                         TitleAndWidget(
                           title: "Размер",
-                          child: // TODO: MAKE SIZE CHOOSING AND CHANGE STATES BY CLICKING THEM
-                              SingleChildScrollView(
+                          child: SingleChildScrollView(
                             padding: const EdgeInsets.only(left: 20),
                             scrollDirection: Axis.horizontal,
                             child: Row(
@@ -277,14 +295,19 @@ class _ProductScreenState extends State<ProductScreen> {
                                       padding: const EdgeInsets.only(right: 10),
                                       child: GestureDetector(
                                         onTap: () {
-                                          _currentSizeID = i;
-                                          setState(() {});
+                                          if (product.sizes[i].inStock) {
+                                            setState(() {
+                                              _currentSizeID = i;
+                                            });
+                                          }
                                         },
                                         child: ProductSizeOption(
-                                          id: i,
-                                          currentId: _currentSizeID,
+                                          optionState: product.sizes[i].inStock
+                                              ? i == _currentSizeID
+                                                  ? OptionState.Selected
+                                                  : OptionState.Deselected
+                                              : OptionState.Disabled,
                                           size: product.sizes[i].name,
-                                          inStock: product.sizes[i].inStock,
                                         ),
                                       )),
                               ],
