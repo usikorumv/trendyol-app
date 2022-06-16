@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_const
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trendyol_market/src/data/repository/products_repository.dart';
@@ -45,7 +43,7 @@ class HomePage extends StatefulWidget {
           ),
           Text(
             'Женщинам',
-            style: const TextStyle(fontSize: 16, color: Colors.black),
+            style: TextStyle(fontSize: 16, color: Colors.black),
           ),
           Text(
             'Детям',
