@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:trendyol_market/src/view/screens/home/widgets/product_card.dart';
-
-import '../../../../models/product/product.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/styles.dart';
 
@@ -32,7 +29,7 @@ class CartPage extends StatelessWidget {
           //     ],
           //   ),
           // ),
-          Center(
+          const Center(
             child: Text("Cart is empty",
                 style: TextStyle(
                   color: kTextColor,
@@ -46,12 +43,12 @@ class CartPage extends StatelessWidget {
               height: 50,
               width: MediaQuery.of(context).size.width,
               color: kPrimaryColor,
-              padding: EdgeInsets.only(left: 12, right: 4),
+              padding: const EdgeInsets.only(left: 12, right: 4),
               child: Row(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text(
                         "Итого",
                         style: TextStyle(
@@ -65,7 +62,7 @@ class CartPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -73,7 +70,7 @@ class CartPage extends StatelessWidget {
                         primary: kLightGreyColor[0],
                         // primary: kSecondaryColor,
                       ),
-                      child: Padding(
+                      child: const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12),
                         child: Text(
                           "Оформить заказ",

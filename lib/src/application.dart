@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:trendyol_market/src/data/provider/products_provider.dart';
 import 'package:trendyol_market/src/data/repository/products_repository.dart';
-import 'package:trendyol_market/src/logic/auth/auth_bloc.dart';
-import 'package:trendyol_market/src/view/screens/login/login_screen.dart';
-import 'package:trendyol_market/src/view/screens/product/product_screen.dart';
 
+import 'logic/blocs/auth/auth_bloc.dart';
 import 'view/screens/home/home_screen.dart';
 
 class Application extends StatelessWidget {
@@ -33,7 +31,7 @@ class Application extends StatelessWidget {
                   //   Theme.of(context).textTheme,
                   // ),
                   ),
-              home: HomeScreen(),
+              home: const HomeScreen(),
             );
           }),
         ),

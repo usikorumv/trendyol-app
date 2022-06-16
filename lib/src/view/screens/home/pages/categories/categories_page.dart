@@ -22,8 +22,9 @@ class CategoriesPage extends StatefulWidget {
           color: kLightGreyColor[0],
           borderRadius: BorderRadius.circular(10),
         ),
-        child: const CustomSearchField()
-      ),);
+        child: const CustomSearchField(),
+      ),
+  );
 
   @override
   State<CategoriesPage> createState() => _CategoriesPageState();

@@ -4,80 +4,35 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
-import 'login_api.dart';
+import '../../../data/login_api.dart';
 
 part 'auth_state.dart';
-
-abstract class AuthEvent extends Equatable {
-  final String username;
-  final String password;
-
-  AuthEvent(this.username, this.password);
-  @override
-  // TODO: implement props
-  List<Object?> get props => [username, password];
-}
-
-class AuthLogin extends AuthEvent {
-  AuthLogin(String username, String password) : super(username, password);
-}
-
-class AuthLogout extends AuthEvent {
-  AuthLogout() : super("", "");
-}
-
-class AuthRegister extends AuthEvent {
-  AuthRegister(String username, String password) : super(username, password);
-}
-
-class AuthChangeInfo extends AuthEvent {
-  File? file;
-  AuthChangeInfo(this.file) : super("", "");
-}
-
-class AuthRegisterSendNameSurname extends AuthEvent {
-  final File? file;
-  final name;
-  final surname;
-  AuthRegisterSendNameSurname(
-      {required String username,
-      required String password,
-      required this.name,
-      required this.surname,
-      this.file})
-      : super(username, password);
-}
-
-class AuthConfirmPassword extends AuthEvent {
-  final code;
-  AuthConfirmPassword(String username, String password, this.code)
-      : super(username, password);
-}
+part 'auth_event.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> with HydratedMixin {
   AuthBloc() : super(const AuthInitial()) {
     on<AuthLogin>((event, emit) async {
       // if (state.email != "") {
       //   emit(
-      //     AuthSuccess(state.email),
+      //     AuthSuccess(state.email)
       //   );
       // }
       emit(const AuthLoading(""));
       try {
-        String r = await login(event.username, event.password);
-        log("Debug:");
-        log(r);
-        if (r.isNotEmpty) {
+        String token = await login(event.username, event.password);
+        
+        log("Debug: $token");
+
+        if (token.isNotEmpty) {
           String email = event.username;
+          
           // List<dynamic> nameSurname = await getNameSurname(event.username);
           // print("NAme and surname:");
           // print(nameSurname);
-          emit(
-            AuthSuccess(
-                email, r),
-          );
-        } else if (r.isEmpty) {
-          emit(const AuthError());
+
+          emit(AuthSuccess(email, token));
+        } else {
+          emit(const AuthFailed());
         }
       } catch (e) {
         print(e);
@@ -88,35 +43,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with HydratedMixin {
     on<AuthRegister>((event, emit) async {
       try {
         emit(const AuthLoading(""));
-        var r = await register(event.username, event.password);
-        if (r) {
+        bool success = await register(event.username, event.password);
+        if (success) {
           emit(const AuthRegisterSuccess());
-        } else if (r == false) {
+        } else {
           emit(const AuthError());
         }
       } catch (_) {
         emit(const AuthError());
       }
     });
+
     on<AuthConfirmPassword>((event, emit) async {
       try {
         emit(const AuthLoading(""));
-        var r = await confirmPassword(event.username, event.code);
-        if (r) {
+
+        bool success = await confirmPassword(event.username, event.code);
+        if (success) {
           emit(const AuthConfirmPasswordSucces());
-        } else if (r == false) {
+        } else {
           emit(const AuthError());
         }
       } catch (_) {
         emit(const AuthError());
       }
     });
+
     on<AuthLogout>((event, emit) {
       emit(const AuthLoading(""));
-      emit(
-        const AuthInitial(),
-      );
+      emit(const AuthInitial());
     });
+
     // on<AuthChangeInfo>(
     //   (event, emit) async {
     //     String email = state.email;
@@ -134,7 +91,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with HydratedMixin {
     //   },
     // );
   }
-
 
   @override
   AuthState fromJson(Map<String, dynamic> json) {

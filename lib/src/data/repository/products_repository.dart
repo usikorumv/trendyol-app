@@ -1,8 +1,6 @@
 import 'package:trendyol_market/src/data/provider/products_provider.dart';
 import 'package:trendyol_market/src/models/product/feedback.dart';
-import 'package:trendyol_market/src/models/product/product_color.dart';
 import 'package:trendyol_market/src/models/product/question.dart';
-import 'package:trendyol_market/src/models/product_raw/review.dart';
 import 'package:trendyol_market/src/models/product/product.dart';
 import 'package:trendyol_market/src/models/product/product_size.dart';
 import 'package:trendyol_market/src/models/product_raw/product_raw.dart';
@@ -43,7 +41,14 @@ class ProductsService {
             .toList(),
         feedbacksCount: 0,
         // feedbacksCount: reviews.length,
-        feedbacks: [Feedback(user: "Baitur", comment: "Good deal", date: "12.12.2022", rating: 4.3, likes: 1),],
+        feedbacks: [
+          Feedback(
+              user: "Baitur",
+              comment: "Good deal",
+              date: "12.12.2022",
+              rating: 4.3,
+              likes: 1),
+        ],
         // feedbacks: reviews
         //     .map(
         //       (review) => Feedback(
@@ -55,7 +60,12 @@ class ProductsService {
         //       ),
         //     )
         //     .toList(),
-        questions: [Question(user: "Amantur", question: "How to play this movei?", answer: "You have to read captions")],
+        questions: const[
+          Question(
+              user: "Amantur",
+              question: "How to play this movei?",
+              answer: "You have to read captions")
+        ],
         crossProducts: [],
         recommendationProducts: [] //  rawRecommendationProducts.map((product) =>
         //   Product(imageUrls: pro, discountedPrice: discountedPrice, sell ingPrice: sellingPrice, originalPrice: originalPrice, name: name, campaign: campaign, description: description, rating: rating, startProductSize: startProductSize, sizes: sizes, feedbacksCount: feedbacksCount, feedbacks: feedbacks, questions: questions, crossProducts: crossProducts, recommendationProducts: recommendationProducts)
