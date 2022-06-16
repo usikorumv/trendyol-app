@@ -26,24 +26,26 @@ class HomePage extends StatefulWidget {
       ),
       child: const CustomSearchField()
     ),
-    bottom: const PreferredSize(
-      preferredSize: Size.fromHeight(20),
+    bottom: PreferredSize(
+      preferredSize: const Size.fromHeight(20),
       child: TabBar(
         indicatorSize: TabBarIndicatorSize.label,
         indicatorWeight: 1,
         labelPadding: const EdgeInsets.symmetric(horizontal: 25),
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         isScrollable: true,
-        // onTap: ,
+        onTap: (index) {
+
+        },
         indicatorColor: Colors.black,
-        tabs: [
+        tabs: const [
           Text(
             'Мужчинам',
             style: TextStyle(fontSize: 16, color: Colors.black),
           ),
           Text(
             'Женщинам',
-            style: TextStyle(fontSize: 16, color: Colors.black),
+            style: const TextStyle(fontSize: 16, color: Colors.black),
           ),
           Text(
             'Детям',
