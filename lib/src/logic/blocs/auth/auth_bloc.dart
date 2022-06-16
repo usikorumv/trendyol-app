@@ -14,25 +14,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with HydratedMixin {
     on<AuthLogin>((event, emit) async {
       // if (state.email != "") {
       //   emit(
-      //     AuthSuccess(state.email),
+      //     AuthSuccess(state.email)
       //   );
       // }
       emit(const AuthLoading(""));
       try {
-        String r = await login(event.username, event.password);
-        log("Debug:");
-        log(r);
-        if (r.isNotEmpty) {
+        String token = await login(event.username, event.password);
+        
+        log("Debug: $token");
+
+        if (token.isNotEmpty) {
           String email = event.username;
+          
           // List<dynamic> nameSurname = await getNameSurname(event.username);
           // print("NAme and surname:");
           // print(nameSurname);
-          emit(
-            AuthSuccess(
-                email, r),
-          );
-        } else if (r.isEmpty) {
-          emit(const AuthError());
+
+          emit(AuthSuccess(email, token));
+        } else {
+          emit(const AuthFailed());
         }
       } catch (e) {
         print(e);
@@ -43,35 +43,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with HydratedMixin {
     on<AuthRegister>((event, emit) async {
       try {
         emit(const AuthLoading(""));
-        var r = await register(event.username, event.password);
-        if (r) {
+        bool success = await register(event.username, event.password);
+        if (success) {
           emit(const AuthRegisterSuccess());
-        } else if (r == false) {
+        } else {
           emit(const AuthError());
         }
       } catch (_) {
         emit(const AuthError());
       }
     });
+
     on<AuthConfirmPassword>((event, emit) async {
       try {
         emit(const AuthLoading(""));
-        var r = await confirmPassword(event.username, event.code);
-        if (r) {
+
+        bool success = await confirmPassword(event.username, event.code);
+        if (success) {
           emit(const AuthConfirmPasswordSucces());
-        } else if (r == false) {
+        } else {
           emit(const AuthError());
         }
       } catch (_) {
         emit(const AuthError());
       }
     });
+
     on<AuthLogout>((event, emit) {
       emit(const AuthLoading(""));
-      emit(
-        const AuthInitial(),
-      );
+      emit(const AuthInitial());
     });
+
     // on<AuthChangeInfo>(
     //   (event, emit) async {
     //     String email = state.email;
@@ -89,7 +91,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with HydratedMixin {
     //   },
     // );
   }
-
 
   @override
   AuthState fromJson(Map<String, dynamic> json) {

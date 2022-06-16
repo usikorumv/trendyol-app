@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:trendyol_market/src/view/screens/home/home_screen.dart';
@@ -8,22 +7,19 @@ import 'package:trendyol_market/src/view/screens/login/sign_up_screen.dart';
 
 import '../../../logic/blocs/auth/auth_bloc.dart';
 
-
-
 class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
-
-  var usernameController = TextEditingController();
-  var passwordController = TextEditingController();
+  const LoginScreen({Key? key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
+    var usernameController = TextEditingController();
+    var passwordController = TextEditingController();
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           body: BlocConsumer<AuthBloc, AuthState>(
             builder: (context, state) {
-              print(state);
               if (state is AuthInitial ||
                   state is AuthError ||
                   state is AuthRegisterSuccess) {
@@ -33,14 +29,6 @@ class LoginScreen extends StatelessWidget {
                 );
               } else if (state is AuthSuccess || state.email != "") {
                 String token = BlocProvider.of<AuthBloc>(context).state.token;
-                // BlocProvider.of<LikeCubit>(context).get_like(
-                //     token, BlocProvider.of<AuthBloc>(context).state.email);
-                // BlocProvider.of<CategoriesCubit>(context).get_category(token);
-                // BlocProvider.of<SurveyCubit>(context)
-                //     .fetch_surveys_stream(token);
-                // // BlocProvider.of<SurveyCubit>(context).fetch();
-                // BlocProvider.of<SurveyMineCubit>(context).fetch(
-                //     BlocProvider.of<AuthBloc>(context).state.email, token);
                 return const HomeScreen();
               }
               return const Center(
@@ -48,15 +36,19 @@ class LoginScreen extends StatelessWidget {
                 color: Colors.black,
               ));
             },
-            // buildWhen: (context, state) {
-            //   if (state is AuthSuccess) return true;
-            //   return state is AuthError ? false : true;
-            // },
             listener: (context, state) {
-              state is AuthError
+              state is AuthFailed
+                  ? ScaffoldMessenger.of(context).showSnackBar(
+                       const SnackBar(
+                        content: Text("Invalid email or password}"),
+                      ),
+                    )
+                  : null;
+
+              state is AuthError 
                   ? ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text("Invalid email or password or Error"),
+                        content: Text("Something went wrong(Server down)"),
                       ),
                     )
                   : null;
@@ -81,12 +73,8 @@ class LoginInitialWidget extends StatefulWidget {
 }
 
 class _LoginInitialWidgetState extends State<LoginInitialWidget> {
-  bool check(String name, String password) {
-    if (name.isEmpty || password.length < 6) {
-      return false;
-    }
-    return true;
-  }
+  bool check(String name, String password) =>
+      !(name.isEmpty || password.length < 6);
 
   late bool isShowed = true;
 
@@ -102,7 +90,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
           Align(
             alignment: Alignment.topLeft,
             child: RichText(
-              text: TextSpan(children: [
+              text: const TextSpan(children: [
                 TextSpan(
                   text: 'Login\n',
                   style: TextStyle(
@@ -146,7 +134,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                         color: Colors.grey,
                       ),
                     ),
-                    hintText: "Username or email",
+                    hintText: "Email",
                     hintStyle: TextStyle(fontSize: 14.sp),
                   ),
                 ),
@@ -165,9 +153,9 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                   style: TextStyle(fontSize: 14.sp),
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintStyle: TextStyle(fontSize: 18),
+                    hintStyle: const TextStyle(fontSize: 18),
                     prefixIcon: Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       child: Icon(
                         Icons.lock,
                         size: 3.h,
@@ -223,11 +211,11 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                               );
                       },
                       child: Row(
-                        children: [
+                        children: const [
                           Text(
                             "Login ",
                           ),
-                          const Icon(
+                           Icon(
                             Icons.arrow_forward,
                             size: 20,
                           )
@@ -242,7 +230,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
           // SizedBox(
           //   height: MediaQuery.of(context).size.height * 0.27,
           // ),
-          Spacer(),
+         const Spacer(),
           RichText(
             text: TextSpan(
               children: [
@@ -252,7 +240,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                 ),
                 TextSpan(
                     text: 'Sign up',
-                    style: TextStyle(color: Colors.orange),
+                    style: const TextStyle(color: Colors.orange),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         Navigator.push(

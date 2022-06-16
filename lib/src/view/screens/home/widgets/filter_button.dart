@@ -24,7 +24,7 @@ class FilterButton extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 21, right: 18),
+          padding: const EdgeInsets.only(left: 21, right: 18),
           child: Row(
             children: [
               Column(
@@ -32,12 +32,12 @@ class FilterButton extends StatelessWidget {
                 children: [
                   Text(
                     _title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: kTextColor,
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(height: 1.8),
+                  const SizedBox(height: 1.8),
                   Text(
                     _elements.join(", "),
                     overflow: TextOverflow.ellipsis,
@@ -46,16 +46,16 @@ class FilterButton extends StatelessWidget {
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               IconButton(
                 onPressed: () {
                   onTap(drawer);
                 },
                 splashRadius: 20,
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_forward_ios_rounded,
                   color: kTextColor,
                   size: 18,
@@ -64,7 +64,7 @@ class FilterButton extends StatelessWidget {
             ],
           ),
         ),
-        Divider(),
+       const Divider(),
       ],
     );
   }

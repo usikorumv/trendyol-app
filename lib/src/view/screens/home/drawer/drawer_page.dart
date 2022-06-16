@@ -16,8 +16,7 @@ class DrawerPage extends StatelessWidget {
         elevation: 0,
         backgroundColor: kPrimaryColor,
         title: Text(
-          title,
-          style: TextStyle(),
+          title
         ),
       ),
       body: body,

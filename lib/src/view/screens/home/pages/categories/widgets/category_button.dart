@@ -18,7 +18,7 @@ class CategoryButtonState extends State<CategoryButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 62),
+      padding: const EdgeInsets.only(left: 62),
       child: GestureDetector(
         onTap: widget.onTap(widget.category),
         child: Column(
@@ -27,17 +27,17 @@ class CategoryButtonState extends State<CategoryButton> {
               children: [
                 Text(
                   widget.category.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: kTextColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
               ],
             ),
-            Divider(),
-            SizedBox(height: 15,),
+            const Divider(),
+            const SizedBox(height: 15,),
           ],
         ),
       ),

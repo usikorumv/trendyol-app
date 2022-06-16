@@ -23,11 +23,9 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
 
     return GestureDetector(
       onTap: () {
-        // TODO: ADD HERO TRANSITION TO PRODUCT SCREEN
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -51,7 +49,7 @@ class ProductCard extends StatelessWidget {
       case ProductCardType.Usual:
         return RegularProductCard(product: product);
       case ProductCardType.Favorite:
-        return SizedBox();
+        return const SizedBox();
       case ProductCardType.Cart:
         return CartProductCard(product: product);
     }
@@ -179,12 +177,11 @@ class CartProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-
     return Container(
       height: 182,
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      margin: EdgeInsets.symmetric(horizontal: 6),
-      padding: EdgeInsets.symmetric(vertical: 9, horizontal: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 6),
+      padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 5),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(7),
@@ -213,30 +210,30 @@ class CartProductCard extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(width: 7),
+              const SizedBox(width: 7),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       product.name,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                       "Доставка: 20 - 25 дней",
                       style: TextStyle(color: kTextColor),
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                       "Размер: 37",
                       style: TextStyle(color: kTextColor),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Row(
                       children: [
                         Row(
@@ -244,7 +241,7 @@ class CartProductCard extends StatelessWidget {
                             IconButton(
                               onPressed: () {},
                               padding: EdgeInsets.zero,
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.add,
                                 size: 30,
                                 color: kSecondaryColor,
@@ -256,7 +253,7 @@ class CartProductCard extends StatelessWidget {
                                     color: kSecondaryColor, width: 1),
                                 borderRadius: BorderRadius.circular(7),
                               ),
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 23,
                                 vertical: 5,
                               ),
@@ -265,7 +262,7 @@ class CartProductCard extends StatelessWidget {
                             IconButton(
                               onPressed: () {},
                               padding: EdgeInsets.zero,
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.remove,
                                 size: 30,
                                 color: kSecondaryColor,
@@ -278,7 +275,7 @@ class CartProductCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Spacer(),
+                        const Spacer(),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -304,7 +301,7 @@ class CartProductCard extends StatelessWidget {
             right: 0,
             child: IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.delete_forever_outlined,
                 color: Colors.redAccent,
                 size: 28,

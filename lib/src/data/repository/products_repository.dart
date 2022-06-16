@@ -60,7 +60,7 @@ class ProductsService {
         //       ),
         //     )
         //     .toList(),
-        questions: [
+        questions: const[
           Question(
               user: "Amantur",
               question: "How to play this movei?",

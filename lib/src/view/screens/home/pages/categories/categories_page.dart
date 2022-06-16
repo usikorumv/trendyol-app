@@ -23,7 +23,7 @@ class CategoriesPage extends StatefulWidget {
         ),
         child: const TextField(
           textAlignVertical: TextAlignVertical.center,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
               hintText: "",
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,

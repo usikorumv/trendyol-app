@@ -6,13 +6,14 @@ abstract class AuthState extends Equatable {
   final String name;
   final String surname;
   final String? image;
-  final int id_info;
+  final int idInfo;
+  
   const AuthState(
       {this.name = "",
       this.surname = "",
       this.email = "",
       this.token = "",
-      this.image,this.id_info=-1});
+      this.image,this.idInfo=-1});
 
   fromMap(Map<String, dynamic> map) {
     if (map["email"] != "") {
@@ -33,12 +34,12 @@ abstract class AuthState extends Equatable {
       "name": name,
       "surname": surname,
       "image": image ?? "",
-      "id_info":id_info
+      "id_info":idInfo
     };
   }
 
   @override
-  List<Object> get props => [email,image??"",id_info,name,surname];
+  List<Object> get props => [email,image??"",idInfo,name,surname];
 }
 
 class AuthInitial extends AuthState {
@@ -84,7 +85,7 @@ class AuthSuccess extends AuthState {
 
   @override
   String toString() {
-    return "$name $surname $email $image $id_info";
+    return "$name $surname $email $image $idInfo";
   }
 }
 
@@ -107,6 +108,17 @@ class AuthError extends AuthState {
     );
   }
 }
+
+class AuthFailed extends AuthState {
+  const AuthFailed({String e = ""}) : super(email: e);
+  @override
+  fromMap(Map<String, dynamic> map) {
+    return AuthError(
+      e: map["email"] as String,
+    );
+  }
+}
+
 
 class AuthConfirmPasswordSucces extends AuthState {
   const AuthConfirmPasswordSucces({String e = ""}) : super(email: e);

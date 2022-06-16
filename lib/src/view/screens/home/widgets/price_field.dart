@@ -12,7 +12,7 @@ class PriceField extends StatelessWidget {
     return Container(
       height: 50,
       width: 125,
-      padding: EdgeInsets.only(left: 15),
+      padding: const EdgeInsets.only(left: 15),
       decoration: BoxDecoration(
         color: kLightGreyColor[1],
         borderRadius: BorderRadius.circular(12),

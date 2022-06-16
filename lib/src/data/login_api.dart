@@ -13,7 +13,6 @@ Future<String> login(String username, String password) async {
       "password": password,
     },
   );
-  // print(response.)
   if (response.statusCode >= 400) {
     throw UnimplementedError();
   } else if (response.statusCode == 201 || response.statusCode == 200) {

@@ -15,20 +15,20 @@ class _CategoryDropdownState extends State<CategoryDropdown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           Row(
             children: [
               Text(
                 widget.category.name,
-                style: TextStyle(
+                style: const TextStyle(
                   color: kTextColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              Spacer(),
+             const Spacer(),
               // IconButton(
               //     onPressed: () {},
               //     icon: Icon(
@@ -38,8 +38,8 @@ class _CategoryDropdownState extends State<CategoryDropdown> {
               //     ))
             ],
           ),
-          Divider(),
-          SizedBox(height: 15),
+          const Divider(),
+          const SizedBox(height: 15),
         ],
       ),
     );
