@@ -4,6 +4,7 @@ import 'package:trendyol_market/src/view/screens/home/pages/categories/widgets/c
 import 'package:trendyol_market/src/view/screens/home/pages/categories/widgets/category_dropdown.dart';
 
 import 'package:flutter_tree/flutter_tree.dart';
+import 'package:trendyol_market/src/view/screens/home/pages/home/widgets/custom_serch_field.dart';
 
 import '../../../../constants/colors.dart';
 
@@ -21,15 +22,9 @@ class CategoriesPage extends StatefulWidget {
           color: kLightGreyColor[0],
           borderRadius: BorderRadius.circular(10),
         ),
-        child: const TextField(
-          textAlignVertical: TextAlignVertical.center,
-          decoration: InputDecoration(
-              hintText: "",
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              contentPadding: EdgeInsets.zero),
-        ),
-      ),);
+        child: const CustomSearchField(),
+      ),
+  );
 
   @override
   State<CategoriesPage> createState() => _CategoriesPageState();
@@ -79,7 +74,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           // TreeView(
           //   data: treeData,
           //   onTap: (node) {

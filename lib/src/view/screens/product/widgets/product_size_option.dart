@@ -3,54 +3,62 @@ import 'package:flutter/material.dart';
 import '../../../constants/colors.dart';
 import '../option_state.dart';
 
-// TODO: MAKE IT CLICKABLE
 class ProductSizeOption extends StatefulWidget {
   const ProductSizeOption({
     Key? key,
-    required this.size,
     required this.id,
-    required this.currentID,
+    required this.currentId,
+    required this.size,
     required this.inStock,
-    required this.onTap,
   }) : super(key: key);
 
-  final int id, currentID;
+  final int id, currentId;
   final String size;
   final bool inStock;
-  final Function(int) onTap;
 
   @override
   State<ProductSizeOption> createState() => _ProductSizeOptionState();
 }
 
 class _ProductSizeOptionState extends State<ProductSizeOption> {
+  late OptionState _optionState;
+
   @override
-  Widget build(BuildContext context) {
-    OptionState _optionState;
+  void initState() {
+    super.initState();
     if (widget.inStock) {
-      _optionState = widget.currentID == widget.id
-          ? OptionState.Selected
-          : OptionState.Deselected;
+      _optionState = OptionState.Deselected;
+      // _optionState = widget.currentID == widget.id
+      //     ? OptionState.Selected
+      //     : OptionState.Deselected;
     } else {
       _optionState = OptionState.Disabled;
     }
 
-    return GestureDetector(
-      onTap: () {
-        if (_optionState == OptionState.Disabled) return;
+    // if (_optionState == OptionState.Disabled) return;
+    // setState(() {
 
-        setState(() {
-          widget.onTap(widget.id);
-        });
-      },
+      // _optionState = widget.currentID == widget.id
+      //     ? OptionState.Selected
+      //     : OptionState.Deselected;
+    // });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _optionState = widget.inStock ? widget.currentId == widget.id
+        ? OptionState.Selected
+        : OptionState.Deselected : OptionState.Disabled;
+
+    return GestureDetector(
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         padding: _getEdgeInsetsFromState(_optionState),
         decoration: BoxDecoration(
           color: _getBoxColorFromState(_optionState),
           borderRadius: BorderRadius.circular(7),
           border: _optionState == OptionState.Disabled
-              ? Border()
+              ? const Border()
               : Border.all(color: kSecondaryColor),
         ),
         child: Text(
@@ -92,9 +100,9 @@ class _ProductSizeOptionState extends State<ProductSizeOption> {
   EdgeInsets _getEdgeInsetsFromState(OptionState optionState) {
     switch (optionState) {
       case OptionState.Selected:
-        return EdgeInsets.symmetric(horizontal: 20, vertical: 11);
+        return const EdgeInsets.symmetric(horizontal: 20, vertical: 11);
       default:
-        return EdgeInsets.symmetric(horizontal: 14, vertical: 8);
+        return const EdgeInsets.symmetric(horizontal: 14, vertical: 8);
     }
   }
 }

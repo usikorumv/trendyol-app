@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trendyol_market/src/data/repository/products_repository.dart';
 import 'package:trendyol_market/src/logic/blocs/present_products/present_products_bloc.dart';
 import 'package:trendyol_market/src/view/constants/colors.dart';
+import 'package:trendyol_market/src/view/screens/home/pages/home/widgets/custom_serch_field.dart';
 
 import '../../../../../models/product/product.dart';
 import '../../widgets/product_card.dart';
@@ -23,14 +24,7 @@ class HomePage extends StatefulWidget {
         color: kLightGreyColor[0],
         borderRadius: BorderRadius.circular(10),
       ),
-      child: const TextField(
-        textAlignVertical: TextAlignVertical.center,
-        decoration: const InputDecoration(
-            hintText: "",
-            enabledBorder: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            contentPadding: EdgeInsets.zero),
-      ),
+      child: const CustomSearchField()
     ),
     bottom: const PreferredSize(
       preferredSize: Size.fromHeight(20),
@@ -242,10 +236,13 @@ class _SortButtonState extends State<SortButton> {
           hint: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              Icon(
-                Icons.keyboard_arrow_down_rounded,
-                size: 30,
-                color: kSecondaryColor,
+              Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  size: 30,
+                  color: kSecondaryColor,
+                ),
               ),
               SizedBox(width: 3),
               Text(
