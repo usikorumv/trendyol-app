@@ -6,67 +6,38 @@ import '../option_state.dart';
 class ProductSizeOption extends StatefulWidget {
   const ProductSizeOption({
     Key? key,
-    required this.id,
-    required this.currentId,
+    required this.optionState,
     required this.size,
-    required this.inStock,
   }) : super(key: key);
 
-  final int id, currentId;
+  final OptionState optionState;
   final String size;
-  final bool inStock;
 
   @override
   State<ProductSizeOption> createState() => _ProductSizeOptionState();
 }
 
 class _ProductSizeOptionState extends State<ProductSizeOption> {
-  late OptionState _optionState;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.inStock) {
-      _optionState = OptionState.Deselected;
-      // _optionState = widget.currentID == widget.id
-      //     ? OptionState.Selected
-      //     : OptionState.Deselected;
-    } else {
-      _optionState = OptionState.Disabled;
-    }
-
-    // if (_optionState == OptionState.Disabled) return;
-    // setState(() {
-
-      // _optionState = widget.currentID == widget.id
-      //     ? OptionState.Selected
-      //     : OptionState.Deselected;
-    // });
-  }
-
   @override
   Widget build(BuildContext context) {
-    _optionState = widget.inStock ? widget.currentId == widget.id
-        ? OptionState.Selected
-        : OptionState.Deselected : OptionState.Disabled;
-
     return GestureDetector(
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        padding: _getEdgeInsetsFromState(_optionState),
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.decelerate,
+        padding: _getEdgeInsetsFromState(widget.optionState),
         decoration: BoxDecoration(
-          color: _getBoxColorFromState(_optionState),
+          color: _getBoxColorFromState(widget.optionState),
           borderRadius: BorderRadius.circular(7),
-          border: _optionState == OptionState.Disabled
+          border: widget.optionState == OptionState.Disabled
               ? const Border()
               : Border.all(color: kSecondaryColor),
         ),
         child: Text(
           widget.size,
           style: TextStyle(
-            color: _getTextColorFromState(_optionState),
+            color: _getTextColorFromState(widget.optionState),
             fontSize: 14,
-            fontWeight: _optionState == OptionState.Selected
+            fontWeight: widget.optionState == OptionState.Selected
                 ? FontWeight.bold
                 : FontWeight.normal,
           ),
