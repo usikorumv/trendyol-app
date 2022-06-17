@@ -4,7 +4,7 @@ import 'package:trendyol_market/src/view/constants/colors.dart';
 import 'drawer/filter_drawer.dart';
 
 import 'pages/cart_page.dart';
-import 'pages/categories/categories_page.dart';
+import 'pages/categories_page.dart';
 import 'pages/favorite_page.dart';
 import 'pages/home/home_page.dart';
 import 'pages/profile_page.dart';

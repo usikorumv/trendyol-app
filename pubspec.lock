@@ -92,6 +92,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  dynamic_treeview:
+    dependency: "direct main"
+    description:
+      name: dynamic_treeview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0+2"
   equatable:
     dependency: "direct main"
     description:
@@ -158,13 +165,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_tree:
-    dependency: "direct main"
-    description:
-      name: flutter_tree
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.3"
   google_fonts:
     dependency: "direct main"
     description:

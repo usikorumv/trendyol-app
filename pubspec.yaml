@@ -36,7 +36,7 @@ dependencies:
 
   like_button: ^2.0.4
   smooth_page_indicator: ^1.0.0+2
-  flutter_tree: ^2.0.3
+  dynamic_treeview: ^1.0.0+2
   badges: ^2.0.3
   cached_network_image: ^3.2.1
 
