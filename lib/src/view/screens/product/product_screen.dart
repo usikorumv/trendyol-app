@@ -146,12 +146,12 @@ class _ProductScreenState extends State<ProductScreen> {
                     icon: Stack(
                       children: const [
                         Icon(
-                          Icons.arrow_back_ios_new,
+                          Icons.arrow_back_ios_new_rounded,
                           size: 32,
                           color: Colors.black,
                         ),
                         Icon(
-                          Icons.arrow_back_ios_new,
+                          Icons.arrow_back_ios_new_rounded,
                           size: 30,
                         ),
                       ],
