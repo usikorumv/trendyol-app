@@ -10,12 +10,13 @@ class PresentProductsBloc
     extends Bloc<PresentProductsEvent, PresentProductsState> {
   final ProductsService _productsService;
 
-  PresentProductsBloc(this._productsService) : super(PresentProductsLoading()) {
+  PresentProductsBloc(this._productsService) : super(PresentProductsInitial()) {
     on<LoadPresentProductsEvent>((event, emit) async {
       // try {
-        final List<ProductPresent> products =
-            await _productsService.fetchProducts();
-        emit(PresentProductsLoaded(products: products));
+      emit(PresentProductsLoading());
+      final List<ProductPresent> products =
+          await _productsService.getProducts();
+      emit(PresentProductsLoaded(products: products));
       // } catch (e) {
       //   print(e);
       //   emit(PresentProductsError());

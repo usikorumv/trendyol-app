@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:trendyol_market/src/data/provider/products_provider.dart';
+import 'package:trendyol_market/src/models/categories.dart';
+import 'package:trendyol_market/src/models/categories_raw.dart';
 import 'package:trendyol_market/src/models/product/feedback.dart';
 import 'package:trendyol_market/src/models/product/question.dart';
 import 'package:trendyol_market/src/models/product/product.dart';
@@ -10,7 +14,7 @@ class ProductsService {
 
   ProductsService({required this.productsApiClient});
 
-  Future<Product> fetchProduct(int id) async {
+  Future<Product> getProduct(int id) async {
     ProductRaw rawProduct = await productsApiClient.fetchProduct(id);
 
     // List<Review> reviews = await productsApiClient.fetchReviews(rawProduct.id);
@@ -60,7 +64,7 @@ class ProductsService {
         //       ),
         //     )
         //     .toList(),
-        questions: const[
+        questions: const [
           Question(
               user: "Amantur",
               question: "How to play this movei?",
@@ -75,7 +79,7 @@ class ProductsService {
     return product;
   }
 
-  Future<List<ProductPresent>> fetchProducts() async {
+  Future<List<ProductPresent>> getProducts() async {
     List<ProductPresent> products = [];
 
     List<ProductRaw> rawProducts = await productsApiClient.fetchProducts();
@@ -95,5 +99,22 @@ class ProductsService {
     });
 
     return products;
+  }
+
+  Future<List<Category>> getCategories() async {
+    List<Category> categories = [];
+
+    List<CategoryRaw> rawCategories = await productsApiClient.fetchCategories();
+
+    rawCategories.forEach((rawCategory) {
+      categories.add(Category(
+        slug: rawCategory.slug,
+        title: rawCategory.title,
+        filter: rawCategory.filter_f,
+        parent: rawCategory.parent,
+      ));
+    });
+
+    return categories;
   }
 }

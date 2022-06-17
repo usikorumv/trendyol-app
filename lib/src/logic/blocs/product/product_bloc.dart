@@ -9,10 +9,11 @@ part 'product_state.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductsService _productsService;
 
-  ProductBloc(this._productsService) : super(ProductLoading()) {
+  ProductBloc(this._productsService) : super(ProductInitial()) {
     on<LoadProduct>((event, emit) async {
       // try {
-      final Product product = await _productsService.fetchProduct(event.id);
+      emit(ProductLoading());
+      final Product product = await _productsService.getProduct(event.id);
       emit(ProductLoaded(product: product));
       // } catch (e) {
       //   print(e);
