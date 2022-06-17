@@ -16,14 +16,13 @@ class HomePage extends StatefulWidget {
     backgroundColor: Colors.transparent,
     actions: <Widget>[Container()],
     flexibleSpace: Container(
-      height: 30,
-      margin: const EdgeInsets.symmetric(horizontal: 13, vertical: 6),
-      decoration: BoxDecoration(
-        color: kLightGreyColor[0],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: const CustomSearchField()
-    ),
+        height: 30,
+        margin: const EdgeInsets.symmetric(horizontal: 13, vertical: 6),
+        decoration: BoxDecoration(
+          color: kLightGreyColor[0],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const CustomSearchField()),
     bottom: PreferredSize(
       preferredSize: const Size.fromHeight(20),
       child: TabBar(
@@ -32,9 +31,7 @@ class HomePage extends StatefulWidget {
         labelPadding: const EdgeInsets.symmetric(horizontal: 25),
         padding: const EdgeInsets.symmetric(vertical: 10),
         isScrollable: true,
-        onTap: (index) {
-
-        },
+        onTap: (index) {},
         indicatorColor: Colors.black,
         tabs: const [
           Text(
