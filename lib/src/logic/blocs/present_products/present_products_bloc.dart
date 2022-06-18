@@ -12,15 +12,15 @@ class PresentProductsBloc
 
   PresentProductsBloc(this._productsService) : super(PresentProductsInitial()) {
     on<LoadPresentProductsEvent>((event, emit) async {
-      // try {
+      try {
       emit(PresentProductsLoading());
       final List<ProductPresent> products =
           await _productsService.getProducts();
       emit(PresentProductsLoaded(products: products));
-      // } catch (e) {
-      //   print(e);
-      //   emit(PresentProductsError());
-      // }
+      } catch (e) {
+        print(e);
+        emit(PresentProductsError());
+      }
     });
   }
 }

@@ -134,28 +134,32 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   }
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 7),
-                        child: Icon(
-                          Icons.error_outline_rounded,
-                          size: 70,
-                          color: kLightGreyColor[3],
+
+                  if(state is PresentProductsError){
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 7),
+                          child: Icon(
+                            Icons.error_outline_rounded,
+                            size: 70,
+                            color: kLightGreyColor[3],
+                          ),
                         ),
-                      ),
-                      Text(
-                        "Something went Wrong!",
-                        style: TextStyle(
-                          color: kLightGreyColor[3],
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                        ),
-                      )
-                    ],
-                  );
+                        Text(
+                          "Something went Wrong!",
+                          style: TextStyle(
+                            color: kLightGreyColor[3],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                          ),
+                        )
+                      ],
+                    );
+                  }
+                  return Container();
                 },
               ),
             ),
