@@ -35,13 +35,13 @@ class ProductSize extends Equatable {
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-  
+
     result.addAll({'name': name});
     result.addAll({'slug': slug});
     result.addAll({'currency': currency});
     result.addAll({'inStock': inStock});
     result.addAll({'value': value});
-  
+
     return result;
   }
 

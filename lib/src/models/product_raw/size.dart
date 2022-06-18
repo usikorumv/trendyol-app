@@ -1,5 +1,3 @@
-
-
 import 'package:equatable/equatable.dart';
 
 class Size extends Equatable {

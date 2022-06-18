@@ -7,8 +7,6 @@ import 'package:sizer/sizer.dart';
 
 import '../../../logic/blocs/auth/auth_bloc.dart';
 
-
-
 class RegisterInitialWidget extends StatefulWidget {
   const RegisterInitialWidget({
     Key? key,

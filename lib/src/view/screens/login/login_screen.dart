@@ -9,7 +9,7 @@ import '../../../logic/blocs/auth/auth_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     var usernameController = TextEditingController();
@@ -39,13 +39,13 @@ class LoginScreen extends StatelessWidget {
             listener: (context, state) {
               state is AuthFailed
                   ? ScaffoldMessenger.of(context).showSnackBar(
-                       const SnackBar(
+                      const SnackBar(
                         content: Text("Invalid email or password}"),
                       ),
                     )
                   : null;
 
-              state is AuthError 
+              state is AuthError
                   ? ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text("Something went wrong(Server down)"),
@@ -215,7 +215,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                           Text(
                             "Login ",
                           ),
-                           Icon(
+                          Icon(
                             Icons.arrow_forward,
                             size: 20,
                           )
@@ -230,7 +230,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
           // SizedBox(
           //   height: MediaQuery.of(context).size.height * 0.27,
           // ),
-         const Spacer(),
+          const Spacer(),
           RichText(
             text: TextSpan(
               children: [

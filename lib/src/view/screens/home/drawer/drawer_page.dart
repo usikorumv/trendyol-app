@@ -15,9 +15,7 @@ class DrawerPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: kPrimaryColor,
-        title: Text(
-          title
-        ),
+        title: Text(title),
       ),
       body: body,
     );
