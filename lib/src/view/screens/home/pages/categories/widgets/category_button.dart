@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:trendyol_market/src/models/categories.dart';
 
 import '../../../../../constants/colors.dart';
 
-
 class CategoryButton extends StatefulWidget {
-  const CategoryButton({Key? key, required this.category, required this.onTap}) : super(key: key);
+  const CategoryButton({Key? key, required this.category, required this.onTap})
+      : super(key: key);
 
   final Category category;
   final Function(Category) onTap;
@@ -38,7 +37,9 @@ class CategoryButtonState extends State<CategoryButton> {
               ],
             ),
             const Divider(),
-            const SizedBox(height: 15,),
+            const SizedBox(
+              height: 15,
+            ),
           ],
         ),
       ),

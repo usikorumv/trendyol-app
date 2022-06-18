@@ -64,7 +64,7 @@ class FilterButton extends StatelessWidget {
             ],
           ),
         ),
-       const Divider(),
+        const Divider(),
       ],
     );
   }

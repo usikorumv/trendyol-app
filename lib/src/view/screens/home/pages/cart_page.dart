@@ -22,20 +22,17 @@ class CartPage extends StatelessWidget {
                 color: kLightGreyColor[0],
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const CustomSearchField()
-          )
-      ),
+              child: const CustomSearchField())),
       body: SizedBox(
         height: _size.height,
         child: Stack(
           children: [
             ListView.builder(
                 itemCount: 3,
-                itemBuilder: (context,index){
+                itemBuilder: (context, index) {
                   return Container();
                   //return  CartListTileWidget(product: product);
-                }
-            ),
+                }),
             // const Center(
             //   child: Text("Cart is empty",
             //       style: TextStyle(

@@ -8,7 +8,6 @@ class BrandSelect extends StatefulWidget {
 }
 
 class _BrandSelectState extends State<BrandSelect> {
-
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,10 @@ class _BrandSelectState extends State<BrandSelect> {
           });
         },
       ),
-      title: const Text('Gucci',style: TextStyle(fontSize: 19),),
+      title: const Text(
+        'Gucci',
+        style: TextStyle(fontSize: 19),
+      ),
     );
   }
 }

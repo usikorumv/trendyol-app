@@ -38,7 +38,7 @@ class CustomDrawer extends StatelessWidget {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(top: 19,right: 10),
+            padding: const EdgeInsets.only(top: 19, right: 10),
             child: RichText(
               text: TextSpan(
                 text: "Выбрать все",

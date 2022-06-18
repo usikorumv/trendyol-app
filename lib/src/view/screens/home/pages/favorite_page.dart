@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
+import '../widgets/favourite_list_tile_widget.dart';
 import 'home/widgets/custom_serch_field.dart';
 
 class FavoritesPage extends StatelessWidget {
-  const FavoritesPage({ Key? key }) : super(key: key);
+  const FavoritesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +21,21 @@ class FavoritesPage extends StatelessWidget {
                 color: kLightGreyColor[0],
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const CustomSearchField()
-          )
+              child: const CustomSearchField())),
+      body: ListView.separated(
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return const FavouriteListTileWidget();
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const Divider(
+            height: 10,
+            endIndent: 20,
+            indent: 20,
+            color: Colors.grey,
+          );
+        },
       ),
-      body: ListView.builder(
-          itemCount: 1,
-          itemBuilder: (context,index){
-            return Container();
-          }
-          ),
-      
     );
   }
 }

@@ -28,7 +28,7 @@ class _CategoryDropdownState extends State<CategoryDropdown> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-             const Spacer(),
+              const Spacer(),
               // IconButton(
               //     onPressed: () {},
               //     icon: Icon(

@@ -4,7 +4,6 @@ import 'package:trendyol_market/src/view/components/rating_bar.dart';
 import 'package:trendyol_market/src/view/constants/colors.dart';
 import 'package:trendyol_market/src/view/screens/product/product_screen.dart';
 
-
 import '../../../../models/product/product.dart';
 import '../../../constants/styles.dart';
 
@@ -23,7 +22,6 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
         Navigator.push(

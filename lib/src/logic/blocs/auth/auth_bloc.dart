@@ -20,12 +20,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with HydratedMixin {
       emit(const AuthLoading(""));
       try {
         String token = await login(event.username, event.password);
-        
+
         log("Debug: $token");
 
         if (token.isNotEmpty) {
           String email = event.username;
-          
+
           // List<dynamic> nameSurname = await getNameSurname(event.username);
           // print("NAme and surname:");
           // print(nameSurname);

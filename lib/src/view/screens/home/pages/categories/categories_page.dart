@@ -44,8 +44,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
       create: (context) => CategoriesBloc(
         RepositoryProvider.of<ProductsService>(context),
       )..add(
-        LoadCategories(),
-      ),
+          LoadCategories(),
+        ),
       child: BlocBuilder<CategoriesBloc, CategoriesState>(
         builder: (context, state) {
           if (state is CategoriesLoading) {
@@ -87,7 +87,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
     List<DataModel> data = [];
 
     categories.forEach(
-          (category) => data.add(
+      (category) => data.add(
         DataModel(
           id: category.slug,
           parentId: category.parent,
@@ -99,146 +99,146 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
     return showCategories
         ? SingleChildScrollView(
-      child: DynamicTreeView(
-        data: getData(data),
-        config: const Config(
-          rootId: "root",
-          parentTextStyle: TextStyle(
-              fontSize: 16,
-              color: kTextColor,
-              fontWeight: FontWeight.w500),
-          parentPaddingEdgeInsets:
-          EdgeInsets.only(left: 16, top: 0, bottom: 0),
-          childrenTextStyle: TextStyle(
-              fontSize: 16,
-              color: kTextColor,
-              fontWeight: FontWeight.w500),
-          arrowIcon: Icon(
-            Icons.keyboard_arrow_down_rounded,
-            size: 32,
-            color: kSecondaryColor,
-          ),
-        ),
-        onTap: (category) {
-          setState(() {
-            showCategories = false;
-          });
-        },
-        width: MediaQuery.of(context).size.width,
-      ),
-    )
+            child: DynamicTreeView(
+              data: getData(data),
+              config: const Config(
+                rootId: "root",
+                parentTextStyle: TextStyle(
+                    fontSize: 16,
+                    color: kTextColor,
+                    fontWeight: FontWeight.w500),
+                parentPaddingEdgeInsets:
+                    EdgeInsets.only(left: 16, top: 0, bottom: 0),
+                childrenTextStyle: TextStyle(
+                    fontSize: 16,
+                    color: kTextColor,
+                    fontWeight: FontWeight.w500),
+                arrowIcon: Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  size: 32,
+                  color: kSecondaryColor,
+                ),
+              ),
+              onTap: (category) {
+                setState(() {
+                  showCategories = false;
+                });
+              },
+              width: MediaQuery.of(context).size.width,
+            ),
+          )
         : WillPopScope(
-      onWillPop: () {
-        //trigger leaving and use own data
-        setState(() {
-          showCategories = true;
-        });
-        //we need to return a future
-        return Future.value(false);
-      },
-      child: BlocProvider(
-        create: (context) => PresentProductsBloc(
-          RepositoryProvider.of<ProductsService>(context),
-        )..add(
-          LoadPresentProductsEvent(),
-        ),
-        child: RefreshIndicator(
-          triggerMode: RefreshIndicatorTriggerMode.anywhere,
-          onRefresh: () async {
-            setState(() {
-              context
-                  .read<PresentProductsBloc>()
-                  .add(LoadPresentProductsEvent());
-            });
-          },
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  children:  const [
-                    Expanded(child: SortButton()),
-                    SizedBox(width: 3),
-                    Expanded(child: FilterDrawerButton()),
+            onWillPop: () {
+              //trigger leaving and use own data
+              setState(() {
+                showCategories = true;
+              });
+              //we need to return a future
+              return Future.value(false);
+            },
+            child: BlocProvider(
+              create: (context) => PresentProductsBloc(
+                RepositoryProvider.of<ProductsService>(context),
+              )..add(
+                  LoadPresentProductsEvent(),
+                ),
+              child: RefreshIndicator(
+                triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                onRefresh: () async {
+                  setState(() {
+                    context
+                        .read<PresentProductsBloc>()
+                        .add(LoadPresentProductsEvent());
+                  });
+                },
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        children: const [
+                          Expanded(child: SortButton()),
+                          SizedBox(width: 3),
+                          Expanded(child: FilterDrawerButton()),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Expanded(
+                      child: BlocBuilder<PresentProductsBloc,
+                          PresentProductsState>(
+                        builder: (context, state) {
+                          if (state is PresentProductsLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (state is PresentProductsLoaded) {
+                            List<ProductPresent> products = state.products;
+
+                            return SingleChildScrollView(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 13),
+                              child: Column(
+                                children: [
+                                  for (int i = 0; i < products.length; i += 2)
+                                    Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: ProductCard(
+                                                product: products[i],
+                                              ),
+                                            ),
+                                            const SizedBox(width: 7),
+                                            if (i < products.length - 2)
+                                              Expanded(
+                                                child: ProductCard(
+                                                  product: products[i + 1],
+                                                ),
+                                              )
+                                            else
+                                              const Spacer(),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10)
+                                      ],
+                                    ),
+                                ],
+                              ),
+                            );
+                          }
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 7),
+                                child: Icon(
+                                  Icons.error_outline_rounded,
+                                  size: 70,
+                                  color: kLightGreyColor[3],
+                                ),
+                              ),
+                              Text(
+                                "Something went Wrong!",
+                                style: TextStyle(
+                                  color: kLightGreyColor[3],
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 17,
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: BlocBuilder<PresentProductsBloc,
-                    PresentProductsState>(
-                  builder: (context, state) {
-                    if (state is PresentProductsLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (state is PresentProductsLoaded) {
-                      List<ProductPresent> products = state.products;
-
-                      return SingleChildScrollView(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 13),
-                        child: Column(
-                          children: [
-                            for (int i = 0; i < products.length; i += 2)
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: ProductCard(
-                                          product: products[i],
-                                        ),
-                                      ),
-                                      const SizedBox(width: 7),
-                                      if (i < products.length - 2)
-                                        Expanded(
-                                          child: ProductCard(
-                                            product: products[i + 1],
-                                          ),
-                                        )
-                                      else
-                                        const Spacer(),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10)
-                                ],
-                              ),
-                          ],
-                        ),
-                      );
-                    }
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 7),
-                          child: Icon(
-                            Icons.error_outline_rounded,
-                            size: 70,
-                            color: kLightGreyColor[3],
-                          ),
-                        ),
-                        Text(
-                          "Something went Wrong!",
-                          style: TextStyle(
-                            color: kLightGreyColor[3],
-                            fontWeight: FontWeight.w500,
-                            fontSize: 17,
-                          ),
-                        )
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 }
 
@@ -266,9 +266,9 @@ class DataModel implements BaseData {
 
   DataModel(
       {required this.id,
-        required this.parentId,
-        required this.name,
-        required this.extras});
+      required this.parentId,
+      required this.name,
+      required this.extras});
 
   @override
   String toString() {

@@ -30,8 +30,11 @@ class HomePage extends StatefulWidget {
         indicatorWeight: 1,
         unselectedLabelColor: Colors.grey,
         labelColor: Colors.black,
-        labelStyle: const TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
-        unselectedLabelStyle: const TextStyle(color: Colors.grey,),
+        labelStyle:
+            const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+        unselectedLabelStyle: const TextStyle(
+          color: Colors.grey,
+        ),
         labelPadding: const EdgeInsets.symmetric(horizontal: 25),
         padding: const EdgeInsets.symmetric(vertical: 10),
         isScrollable: true,
@@ -170,7 +173,7 @@ class FilterDrawerButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-         Scaffold.of(context).openEndDrawer();
+        Scaffold.of(context).openEndDrawer();
       },
       child: Container(
         height: 43,
@@ -236,7 +239,7 @@ class _SortButtonState extends State<SortButton> {
         child: DropdownButton<String>(
           hint: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children:  [
+            children: [
               const Padding(
                 padding: EdgeInsets.only(left: 15),
                 child: Icon(
@@ -272,9 +275,9 @@ class _SortButtonState extends State<SortButton> {
           }).toList(),
           onChanged: (String? newValue) {
             setState(() {
-              if(dropDownValue == newValue){
-                  dropDownValue = 'Сортировать';
-                  return;
+              if (dropDownValue == newValue) {
+                dropDownValue = 'Сортировать';
+                return;
               }
               dropDownValue = newValue!;
             });

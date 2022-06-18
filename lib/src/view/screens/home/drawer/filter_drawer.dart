@@ -46,16 +46,13 @@ class _FilterDrawerState extends State<FilterDrawer> {
           }),
     ),
     CustomDrawer(
-      title: "Бренд",
-      body: ListView.builder(
-          itemBuilder: (context,index){
-            return const BrandSelect();
-          }
-      )
-    ),
+        title: "Бренд",
+        body: ListView.builder(itemBuilder: (context, index) {
+          return const BrandSelect();
+        })),
   ];
 
-  final _nameDrawer = <String>['Размер','Цвета','Бренд'];
+  final _nameDrawer = <String>['Размер', 'Цвета', 'Бренд'];
   late Widget _currentDrawer;
 
   @override
@@ -74,7 +71,8 @@ class _FilterDrawerState extends State<FilterDrawer> {
           children: [
             SizedBox(height: MediaQuery.of(context).viewPadding.top),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22.14, vertical: 15),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 22.14, vertical: 15),
               child: Row(
                 children: [
                   Text(
@@ -140,14 +138,15 @@ class _FilterDrawerState extends State<FilterDrawer> {
             Expanded(
               child: ListView.separated(
                 itemCount: _sizeDrawers.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 19.8),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 19.8),
                 itemBuilder: (context, index) => FilterButton(
                   title: _nameDrawer[index],
                   drawer: _sizeDrawers[index],
                   onTap: (drawer) {
                     SchedulerBinding.instance.addPostFrameCallback((_) {
-                    setState(() {
-                      _currentDrawer = drawer;
+                      setState(() {
+                        _currentDrawer = drawer;
                       });
 
                       Scaffold.of(context).openEndDrawer();

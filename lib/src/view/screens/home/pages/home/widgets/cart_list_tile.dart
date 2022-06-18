@@ -6,7 +6,8 @@ import '../../../../product/product_screen.dart';
 
 class CartListTileWidget extends StatelessWidget {
   const CartListTileWidget({
-    Key? key, required this.product,
+    Key? key,
+    required this.product,
   }) : super(key: key);
 
   final ProductPresent product;
@@ -17,7 +18,11 @@ class CartListTileWidget extends StatelessWidget {
       padding: const EdgeInsets.all(3.0),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProductScreen(productId: product.id),));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProductScreen(productId: product.id),
+              ));
         },
         child: Card(
           elevation: 5,
@@ -31,7 +36,8 @@ class CartListTileWidget extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         child: Image.network(
                           'https://i.stack.imgur.com/zXU6v.png',
                           fit: BoxFit.cover,
@@ -51,16 +57,21 @@ class CartListTileWidget extends StatelessWidget {
                             width: 210,
                             height: 70,
                             child: Text(
-                                'Collection T-shirt - black regular wqwa sjhasjk dhaksjdh',
-                              style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500)
-                              ,),
+                              'Collection T-shirt - black regular wqwa sjhasjk dhaksjdh',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w500),
+                            ),
                           ),
                           IconButton(
                               iconSize: 30,
-                              padding: const EdgeInsets.only(left: 10) ,
+                              padding: const EdgeInsets.only(left: 10),
                               constraints: const BoxConstraints(),
                               onPressed: () {},
-                              icon: const Icon(Icons.delete_outline,size: 35,color: Colors.red,))
+                              icon: const Icon(
+                                Icons.delete_outline,
+                                size: 35,
+                                color: Colors.red,
+                              ))
                         ],
                       ),
                     ),
@@ -71,25 +82,33 @@ class CartListTileWidget extends StatelessWidget {
                           const SizedBox(
                             height: 0,
                           ),
-                         RichText(
-                             text:   TextSpan(
-                               children: [
-                                 const TextSpan(text: "Доставка: ",style: TextStyle(fontSize: 15,color: Colors.grey)),
-                                 TextSpan(text: "20-25 дней",style: TextStyle(color: Colors.grey.shade600,fontWeight: FontWeight.bold))
-                               ]
-                             )
-                         ),
+                          RichText(
+                              text: TextSpan(children: [
+                            const TextSpan(
+                                text: "Доставка: ",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.grey)),
+                            TextSpan(
+                                text: "20-25 дней",
+                                style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontWeight: FontWeight.bold))
+                          ])),
                           const SizedBox(
                             height: 8,
                           ),
                           RichText(
-                              text:   TextSpan(
-                                  children: [
-                                    const TextSpan(text: "Размер: ",style: TextStyle(fontSize: 15,color: Colors.grey)),
-                                    TextSpan(text: "37",style: TextStyle(color: Colors.grey.shade600,fontWeight: FontWeight.bold))
-                                  ]
-                              )
-                          ),
+                              text: TextSpan(children: [
+                            const TextSpan(
+                                text: "Размер: ",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.grey)),
+                            TextSpan(
+                                text: "37",
+                                style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontWeight: FontWeight.bold))
+                          ])),
                           const SizedBox(
                             height: 1,
                           ),
@@ -101,30 +120,45 @@ class CartListTileWidget extends StatelessWidget {
                                   width: 20,
                                 ),
                                 Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     RichText(
-                                        text: const TextSpan(
-                                            children: [
-                                              TextSpan(text: "61.99 ",style: TextStyle(fontSize: 18,color: Colors.grey,decoration: TextDecoration.lineThrough,
-                                                  fontWeight: FontWeight.bold)),
-                                              TextSpan(text: "tmt", style: TextStyle(fontSize: 15,color: Colors.grey,fontWeight: FontWeight.bold))
-                                            ]
-                                        )
-                                    ),
+                                        text: const TextSpan(children: [
+                                      TextSpan(
+                                          text: "61.99 ",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey,
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
+                                          text: "tmt",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.bold))
+                                    ])),
                                     const SizedBox(
                                       height: 2,
                                     ),
                                     RichText(
-                                        text: const TextSpan(
-                                            children: [
-                                              TextSpan(text: "21,88 ",style: TextStyle(fontSize: 24,color: Colors.orange,
-                                                  fontWeight: FontWeight.bold)),
-                                              TextSpan(text: "tmt", style: TextStyle(fontSize: 21,color: Colors.orange,fontWeight: FontWeight.bold))
-                                            ]
-                                        )
-                                    ),
+                                        text: const TextSpan(children: [
+                                      TextSpan(
+                                          text: "21,88 ",
+                                          style: TextStyle(
+                                              fontSize: 24,
+                                              color: Colors.orange,
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
+                                          text: "tmt",
+                                          style: TextStyle(
+                                              fontSize: 21,
+                                              color: Colors.orange,
+                                              fontWeight: FontWeight.bold))
+                                    ])),
                                     SizedBox(
                                       height: 5,
                                     ),
