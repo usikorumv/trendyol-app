@@ -28,6 +28,10 @@ class HomePage extends StatefulWidget {
       child: TabBar(
         indicatorSize: TabBarIndicatorSize.label,
         indicatorWeight: 1,
+        unselectedLabelColor: Colors.grey,
+        labelColor: Colors.black,
+        labelStyle: const TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+        unselectedLabelStyle: const TextStyle(color: Colors.grey,),
         labelPadding: const EdgeInsets.symmetric(horizontal: 25),
         padding: const EdgeInsets.symmetric(vertical: 10),
         isScrollable: true,
@@ -166,7 +170,7 @@ class FilterDrawerButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Scaffold.of(context).openEndDrawer();
+         Scaffold.of(context).openEndDrawer();
       },
       child: Container(
         height: 43,
@@ -210,7 +214,7 @@ class _SortButtonState extends State<SortButton> {
   String dropDownValue = 'Сортировать';
 
   var items = [
-    "Recommended",
+    'Recommended',
     'Lowest price',
     'Highest Price',
     'Best - Sellers',
@@ -232,8 +236,8 @@ class _SortButtonState extends State<SortButton> {
         child: DropdownButton<String>(
           hint: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Padding(
+            children:  [
+              const Padding(
                 padding: EdgeInsets.only(left: 15),
                 child: Icon(
                   Icons.keyboard_arrow_down_rounded,
@@ -241,10 +245,10 @@ class _SortButtonState extends State<SortButton> {
                   color: kSecondaryColor,
                 ),
               ),
-              SizedBox(width: 3),
+              const SizedBox(width: 3),
               Text(
-                "Сортировать",
-                style: TextStyle(
+                dropDownValue,
+                style: const TextStyle(
                   color: kTextColor,
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -268,6 +272,10 @@ class _SortButtonState extends State<SortButton> {
           }).toList(),
           onChanged: (String? newValue) {
             setState(() {
+              if(dropDownValue == newValue){
+                  dropDownValue = 'Сортировать';
+                  return;
+              }
               dropDownValue = newValue!;
             });
           },

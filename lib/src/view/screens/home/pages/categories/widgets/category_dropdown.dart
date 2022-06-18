@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trendyol_market/src/models/category.dart';
+import 'package:trendyol_market/src/models/categories.dart';
 import 'package:trendyol_market/src/view/constants/colors.dart';
 
 class CategoryDropdown extends StatefulWidget {
@@ -21,7 +21,7 @@ class _CategoryDropdownState extends State<CategoryDropdown> {
           Row(
             children: [
               Text(
-                widget.category.name,
+                widget.category.title,
                 style: const TextStyle(
                   color: kTextColor,
                   fontSize: 16,

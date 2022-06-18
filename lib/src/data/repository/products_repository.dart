@@ -45,7 +45,7 @@ class ProductsService {
             .toList(),
         feedbacksCount: 0,
         // feedbacksCount: reviews.length,
-        feedbacks: [
+        feedbacks: const [
           Feedback(
               user: "Baitur",
               comment: "Good deal",

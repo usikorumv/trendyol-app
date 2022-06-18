@@ -18,20 +18,20 @@ class ProductsApiClient {
           r'{"id": 1,"images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-SCue-TSPX9aCauDsxtmhhKm8N65bq2RAnQ&usqp=CAU"],"name": "Erkek Siyah Desenli Pamuklu Yazlık Kısa Kollu","description": "Numune ölçüleri: 175 boy 72 kilo m beden. %70 pamuk. Ürünün kalıbı normal slimdir. Kendi bedeninizden 1 bedeb buyuk almanız tavsıye edılır. Çekimlerde renkler ışık farklılığından dolayı değişiklik gösterebilir.\nBu üründen en fazla 10 adet sipariş verilebilir. 10 adetin üzerindeki siparişleri Trendyol iptal etme hakkını saklı tutar.\nKampanya fiyatından satılmak üzere 100 adetten fazla stok sunulmuştur.\nİncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir.\nBir ürün, birden fazla satıcı tarafından satılabilir. Birden fazla satıcı tarafından satışa sunulan ürünlerin satıcıları ürün için belirledikleri fiyata, satıcı puanlarına, teslimat statülerine, ürünlerdeki promosyonlara, kargonun bedava olup olmamasına ve ürünlerin hızlı teslimat ile teslim edilip edilememesine, ürünlerin stok ve kategorileri bilgilerine göre sıralanmaktadır.","link": "/the-brands-4/erkek-siyah-desenli-pamuklu-yazlik-kisa-kollu-p-134123465","discounted_price": 125,"selling_price": 139,"original_price": 110,"campaign": "MAX FASHİON","currency": "TRY","user": "b@gmail.com","category": "gomlek","parent": null,"color": "haki","show_size": "l","brand": "no-brand","reviews": 0,"likes": 0,"sizes": [{"id": 66680,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "s"},{"id": 66681,"in_stock": false,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "m"},{"id": 66682,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "l"},{"id": 66683,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "xl"},{"id": 66684,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "xxl"}],"rating": 0}'),
     );
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     return rawProduct;
   }
 
   Future<List<ProductRaw>> fetchProducts() async {
+    final response = http.get(Uri.parse('$api/'));
+
     List<ProductRaw> rawProducts = <ProductRaw>[
       ProductRaw.fromJson(
         json.decode(
             r'{"id": 1,"images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-SCue-TSPX9aCauDsxtmhhKm8N65bq2RAnQ&usqp=CAU"],"name": "Erkek Siyah Desenli Pamuklu Yazlık Kısa Kollu","description": "Numune ölçüleri: 175 boy 72 kilo m beden. %70 pamuk. Ürünün kalıbı normal slimdir. Kendi bedeninizden 1 bedeb buyuk almanız tavsıye edılır. Çekimlerde renkler ışık farklılığından dolayı değişiklik gösterebilir.\nBu üründen en fazla 10 adet sipariş verilebilir. 10 adetin üzerindeki siparişleri Trendyol iptal etme hakkını saklı tutar.\nKampanya fiyatından satılmak üzere 100 adetten fazla stok sunulmuştur.\nİncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir.\nBir ürün, birden fazla satıcı tarafından satılabilir. Birden fazla satıcı tarafından satışa sunulan ürünlerin satıcıları ürün için belirledikleri fiyata, satıcı puanlarına, teslimat statülerine, ürünlerdeki promosyonlara, kargonun bedava olup olmamasına ve ürünlerin hızlı teslimat ile teslim edilip edilememesine, ürünlerin stok ve kategorileri bilgilerine göre sıralanmaktadır.","link": "/the-brands-4/erkek-siyah-desenli-pamuklu-yazlik-kisa-kollu-p-134123465","discounted_price": 125,"selling_price": 139,"original_price": 110,"campaign": "MAX FASHİON","currency": "TRY","user": "b@gmail.com","category": "gomlek","parent": null,"color": "haki","show_size": "s","brand": "no-brand","reviews": 0,"likes": 0,"sizes": [{"id": 66680,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "s"},{"id": 66681,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "m"},{"id": 66682,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "l"},{"id": 66683,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "xl"},{"id": 66684,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "xxl"}],"rating": 0}'),
       ),
     ];
-
-    await Future.delayed(const Duration(seconds: 2));
 
     return rawProducts;
   }

@@ -23,7 +23,7 @@ class CustomDrawer extends StatelessWidget {
             Navigator.pop(context);
           },
           splashRadius: 20,
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_rounded,
             color: Colors.black,
             size: 18,
@@ -37,18 +37,21 @@ class CustomDrawer extends StatelessWidget {
               color: kLightGreyColor[3]),
         ),
         actions: [
-          RichText(
-            text: TextSpan(
-              text: "Выбрать все",
-              style: TextStyle(
-                color: kSecondaryColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+          Padding(
+            padding: const EdgeInsets.only(top: 19,right: 10),
+            child: RichText(
+              text: TextSpan(
+                text: "Выбрать все",
+                style: const TextStyle(
+                  color: kSecondaryColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    // TODO: CLEAR FILTRES
+                  },
               ),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  // TODO: CLEAR FILTRES
-                },
             ),
           ),
         ],

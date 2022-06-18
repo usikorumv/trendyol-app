@@ -23,7 +23,7 @@ class FeedbackCard extends StatelessWidget {
             children: [
               Text(
                 feedback.user,
-                style: TextStyle(
+                style: const TextStyle(
                   color: kTextColor,
                   fontWeight: FontWeight.w500,
                 ),

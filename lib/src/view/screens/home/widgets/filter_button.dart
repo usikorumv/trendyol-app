@@ -60,7 +60,7 @@ class FilterButton extends StatelessWidget {
                   color: kTextColor,
                   size: 18,
                 ),
-              ),
+              )
             ],
           ),
         ),

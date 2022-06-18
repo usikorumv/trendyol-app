@@ -1,5 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:trendyol_market/src/view/screens/home/drawer/widgets/brang_select.dart';
+import 'package:trendyol_market/src/view/screens/home/drawer/widgets/color_circle.dart';
 
 import '../../../constants/colors.dart';
 import '../widgets/filter_button.dart';
@@ -17,13 +20,13 @@ class FilterDrawer extends StatefulWidget {
 }
 
 class _FilterDrawerState extends State<FilterDrawer> {
-  final List _drawers = [
+  final List _sizeDrawers = [
     CustomDrawer(
       title: "Размеры",
       body: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4, mainAxisSpacing: 4, crossAxisSpacing: 4),
-          itemCount: 10,
+          itemCount: 1,
           itemBuilder: (context, index) {
             return SizeWidget(
               title: 'X',
@@ -31,16 +34,35 @@ class _FilterDrawerState extends State<FilterDrawer> {
               onPressed: (i) {},
             );
           }),
-    )
+    ),
+    CustomDrawer(
+      title: "Цвета",
+      body: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4, mainAxisSpacing: 4, crossAxisSpacing: 4),
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return const ColorCircle();
+          }),
+    ),
+    CustomDrawer(
+      title: "Бренд",
+      body: ListView.builder(
+          itemBuilder: (context,index){
+            return const BrandSelect();
+          }
+      )
+    ),
   ];
 
+  final _nameDrawer = <String>['Размер','Цвета','Бренд'];
   late Widget _currentDrawer;
 
   @override
   void initState() {
     super.initState();
 
-    _currentDrawer = _drawers[0];
+    _currentDrawer = _sizeDrawers[0];
   }
 
   @override
@@ -52,7 +74,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
           children: [
             SizedBox(height: MediaQuery.of(context).viewPadding.top),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 22.14, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 22.14, vertical: 15),
               child: Row(
                 children: [
                   Text(
@@ -62,11 +84,11 @@ class _FilterDrawerState extends State<FilterDrawer> {
                         fontSize: 16,
                         fontWeight: FontWeight.w500),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   RichText(
                     text: TextSpan(
                       text: "Очистить",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: kSecondaryColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -80,13 +102,13 @@ class _FilterDrawerState extends State<FilterDrawer> {
                 ],
               ),
             ),
-            Divider(),
+            const Divider(),
             Padding(
-              padding: EdgeInsets.fromLTRB(16, 20, 21.51, 17.7),
+              padding: const EdgeInsets.fromLTRB(16, 20, 21.51, 17.7),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Цена",
                     style: TextStyle(
                       color: kTextColor,
@@ -94,22 +116,22 @@ class _FilterDrawerState extends State<FilterDrawer> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
-                      PriceField(defaultPrice: 0),
+                      const PriceField(defaultPrice: 0),
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal:
                                   MediaQuery.of(context).size.width / 69),
-                          child: Divider(
+                          child: const Divider(
                             color: Colors.black,
                             thickness: 1,
                           ),
                         ),
                       ),
-                      PriceField(defaultPrice: 10000),
+                      const PriceField(defaultPrice: 10000),
                     ],
                   )
                 ],
@@ -117,16 +139,19 @@ class _FilterDrawerState extends State<FilterDrawer> {
             ),
             Expanded(
               child: ListView.separated(
-                itemCount: 4,
-                separatorBuilder: (context, index) => SizedBox(height: 19.8),
+                itemCount: _sizeDrawers.length,
+                separatorBuilder: (context, index) => const SizedBox(height: 19.8),
                 itemBuilder: (context, index) => FilterButton(
-                  drawer: _drawers[index],
+                  title: _nameDrawer[index],
+                  drawer: _sizeDrawers[index],
                   onTap: (drawer) {
+                    SchedulerBinding.instance.addPostFrameCallback((_) {
                     setState(() {
                       _currentDrawer = drawer;
-                    });
+                      });
 
-                    Scaffold.of(context).openEndDrawer();
+                      Scaffold.of(context).openEndDrawer();
+                    });
                   },
                 ),
               ),

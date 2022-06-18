@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 
-import '../../../../../../models/category.dart';
+import 'package:flutter/material.dart';
+import 'package:trendyol_market/src/models/categories.dart';
+
 import '../../../../../constants/colors.dart';
 
 
@@ -26,7 +27,7 @@ class CategoryButtonState extends State<CategoryButton> {
             Row(
               children: [
                 Text(
-                  widget.category.name,
+                  widget.category.title,
                   style: const TextStyle(
                     color: kTextColor,
                     fontSize: 16,
