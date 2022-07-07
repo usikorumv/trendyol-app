@@ -19,7 +19,7 @@ class PresentProductsBloc
         emit(PresentProductsLoading());
 
         final List<ProductPresent> products =
-            await _productsService.getProducts(params: Params());
+            await _productsService.getProducts(params: const Params());
 
         emit(PresentProductsLoaded(products: products));
       } catch (e) {
