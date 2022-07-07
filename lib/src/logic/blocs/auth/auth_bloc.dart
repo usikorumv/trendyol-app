@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
-import '../../../data/login_api.dart';
+import '../../../data/provider/login_provider.dart';
 
 part 'auth_state.dart';
 part 'auth_event.dart';

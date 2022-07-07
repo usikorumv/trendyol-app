@@ -1,11 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:trendyol_market/src/view/components/custom_tab_controller.dart';
 
 import '../../../constants/colors.dart';
 import '../widgets/favourite_list_tile_widget.dart';
 import 'home/widgets/custom_serch_field.dart';
 
-class FavoritesPage extends StatelessWidget {
-  const FavoritesPage({Key? key}) : super(key: key);
+class FavoritesPage extends StatefulWidget {
+  const FavoritesPage({Key? key, required this.id, required this.tabController})
+      : super(key: key);
+
+  final CustomTabController tabController;
+  final int id;
+
+  @override
+  State<FavoritesPage> createState() => _FavoritesPageState();
+}
+
+class _FavoritesPageState extends State<FavoritesPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    // widget.tabController.onTap = (page) {
+    //   if (page == widget.id) {}
+    // };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,20 +41,20 @@ class FavoritesPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const CustomSearchField())),
-      body: ListView.separated(
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return const FavouriteListTileWidget();
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const Divider(
-            height: 10,
-            endIndent: 20,
-            indent: 20,
-            color: Colors.grey,
-          );
-        },
-      ),
+      // body: ListView.separated(
+      //   itemCount: 3,
+      //   itemBuilder: (context, index) {
+      //     return const FavouriteListTileWidget();
+      //   },
+      //   separatorBuilder: (BuildContext context, int index) {
+      //     return const Divider(
+      //       height: 10,
+      //       endIndent: 20,
+      //       indent: 20,
+      //       color: Colors.grey,
+      //     );
+      //   },
+      // ),
     );
   }
 }

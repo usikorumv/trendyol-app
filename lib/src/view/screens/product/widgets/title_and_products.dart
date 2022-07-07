@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:trendyol_market/src/models/products/product/product.dart';
 
 import 'package:trendyol_market/src/view/screens/home/widgets/product_card.dart';
 
-import '../../../../models/product/product.dart';
 import '../../../constants/colors.dart';
 
 class TitleAndProducts extends StatelessWidget {

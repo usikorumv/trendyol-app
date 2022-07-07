@@ -3,14 +3,26 @@ import 'package:flutter/material.dart';
 class ProductCounter extends StatefulWidget {
   const ProductCounter({
     Key? key,
+    required this.onIncrease,
+    required this.onDecrease, this.amount,
   }) : super(key: key);
+
+  final int? amount;
+  final Function onIncrease, onDecrease;
 
   @override
   State<ProductCounter> createState() => _ProductCounterState();
 }
 
 class _ProductCounterState extends State<ProductCounter> {
-  int counter = 1;
+  late int counter;
+
+  @override
+  void initState() {
+    super.initState();
+
+    counter = widget.amount ?? 1;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +36,11 @@ class _ProductCounterState extends State<ProductCounter> {
             constraints: const BoxConstraints(),
             onPressed: () {
               setState(() {
-                if (counter <= 0) {
-                  counter = 0;
-                }
                 counter--;
+                widget.onDecrease();
+                if (counter < 1) {
+                  counter = 1;
+                }
               });
             },
             icon: const Icon(
@@ -58,6 +71,7 @@ class _ProductCounterState extends State<ProductCounter> {
             onPressed: () {
               setState(() {
                 counter++;
+                widget.onIncrease();
               });
             },
             icon: const Icon(

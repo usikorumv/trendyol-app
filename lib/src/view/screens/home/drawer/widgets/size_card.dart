@@ -40,7 +40,7 @@ class _SizeWidgetState extends State<SizeWidget> {
               borderRadius: const BorderRadius.all(Radius.circular(12))),
           child: Center(
               child: Text(
-            'XX',
+            widget.title,
             style: TextStyle(
                 color: !isActive
                     ? const Color.fromRGBO(155, 155, 155, 1)
