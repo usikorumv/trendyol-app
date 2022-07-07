@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
+import 'package:trendyol_market/src/models/products/product/feedback.dart';
 
 import 'package:trendyol_market/src/view/constants/colors.dart';
 
-import '../../../../models/product/feedback.dart';
+
 import '../../../components/rating_bar.dart';
 
 class FeedbackCard extends StatelessWidget {

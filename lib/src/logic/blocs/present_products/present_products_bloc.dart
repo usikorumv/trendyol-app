@@ -1,24 +1,29 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:trendyol_market/src/data/repository/products_repository.dart';
-import 'package:trendyol_market/src/models/product/product.dart';
+import 'package:trendyol_market/src/data/repository/repository.dart';
+import 'package:trendyol_market/src/models/params.dart';
+import 'package:trendyol_market/src/models/products/product/product.dart';
 
 part 'present_products_event.dart';
 part 'present_products_state.dart';
 
 class PresentProductsBloc
     extends Bloc<PresentProductsEvent, PresentProductsState> {
-  final ProductsService _productsService;
+  final Service _productsService;
 
   PresentProductsBloc(this._productsService) : super(PresentProductsInitial()) {
-    on<LoadPresentProductsEvent>((event, emit) async {
+    on<LoadPresentProducts>((event, emit) async {
       try {
-      emit(PresentProductsLoading());
-      final List<ProductPresent> products =
-          await _productsService.getProducts();
-      emit(PresentProductsLoaded(products: products));
+        emit(PresentProductsLoading());
+
+        final List<ProductPresent> products =
+            await _productsService.getProducts(params: const Params());
+
+        emit(PresentProductsLoaded(products: products));
       } catch (e) {
-        print(e);
+        log(e.toString());
         emit(PresentProductsError());
       }
     });

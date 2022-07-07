@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:trendyol_market/src/models/products/product/product.dart';
 import 'package:trendyol_market/src/view/components/rating_bar.dart';
 import 'package:trendyol_market/src/view/constants/colors.dart';
 import 'package:trendyol_market/src/view/screens/product/product_screen.dart';
 
-import '../../../../models/product/product.dart';
+
+
 import '../../../constants/styles.dart';
 
 enum ProductCardType {

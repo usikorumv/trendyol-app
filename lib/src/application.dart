@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import 'package:trendyol_market/src/data/provider/products_provider.dart';
-import 'package:trendyol_market/src/data/repository/products_repository.dart';
+import 'package:trendyol_market/src/data/provider/trendyol_provider.dart';
+import 'package:trendyol_market/src/data/repository/repository.dart';
+import 'package:trendyol_market/src/logic/blocs/cart/cart_bloc.dart';
+import 'package:trendyol_market/src/logic/blocs/categories/categories_bloc.dart';
+import 'package:trendyol_market/src/logic/blocs/present_products/present_products_bloc.dart';
+import 'package:trendyol_market/src/logic/blocs/product/product_bloc.dart';
+import 'package:trendyol_market/src/logic/cubits/params/params_cubit.dart';
 
 import 'logic/blocs/auth/auth_bloc.dart';
 import 'view/screens/home/home_screen.dart';
@@ -12,14 +17,41 @@ class Application extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc(),
-      child: MultiRepositoryProvider(
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => Service(
+            trendyolApiClient: TrendyolApiClient(),
+          ),
+        ),
+      ],
+      child: MultiBlocProvider(
         providers: [
-          RepositoryProvider(
-            create: (context) => ProductsService(
-              productsApiClient: ProductsApiClient(),
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(),
+          ),
+          BlocProvider<PresentProductsBloc>(
+            create: (context) => PresentProductsBloc(
+              RepositoryProvider.of<Service>(context),
             ),
+          ),
+          BlocProvider<ProductBloc>(
+            create: (context) => ProductBloc(
+              RepositoryProvider.of<Service>(context),
+            ),
+          ),
+          BlocProvider<CategoriesBloc>(
+            create: (context) => CategoriesBloc(
+              RepositoryProvider.of<Service>(context),
+            ),
+          ),
+          BlocProvider<CartBloc>(
+            create: (context) => CartBloc(
+              RepositoryProvider.of<Service>(context),
+            ),
+          ),
+          BlocProvider<ParamsCubit>(
+            create: (context) => ParamsCubit(),
           ),
         ],
         child: Sizer(

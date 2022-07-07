@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trendyol_market/src/logic/cubits/params/params_cubit.dart';
 import 'package:trendyol_market/src/view/screens/home/drawer/widgets/brang_select.dart';
 import 'package:trendyol_market/src/view/screens/home/drawer/widgets/color_circle.dart';
 
@@ -20,7 +22,7 @@ class FilterDrawer extends StatefulWidget {
 }
 
 class _FilterDrawerState extends State<FilterDrawer> {
-  final List _sizeDrawers = [
+  final List<CustomDrawer> _sizeDrawers = [
     CustomDrawer(
       title: "Размеры",
       body: GridView.builder(
@@ -31,7 +33,9 @@ class _FilterDrawerState extends State<FilterDrawer> {
             return SizeWidget(
               title: 'X',
               id: 1,
-              onPressed: (i) {},
+              onPressed: (i) {
+                context.read<ParamsCubit>().add({"size": ""});
+              },
             );
           }),
     ),
@@ -46,13 +50,15 @@ class _FilterDrawerState extends State<FilterDrawer> {
           }),
     ),
     CustomDrawer(
-        title: "Бренд",
-        body: ListView.builder(itemBuilder: (context, index) {
+      title: "Бренды",
+      body: ListView.builder(
+        itemBuilder: (context, index) {
           return const BrandSelect();
-        })),
+        },
+      ),
+    ),
   ];
 
-  final _nameDrawer = <String>['Размер', 'Цвета', 'Бренд'];
   late Widget _currentDrawer;
 
   @override
@@ -141,7 +147,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 19.8),
                 itemBuilder: (context, index) => FilterButton(
-                  title: _nameDrawer[index],
+                  title: _sizeDrawers[index].title,
                   drawer: _sizeDrawers[index],
                   onTap: (drawer) {
                     SchedulerBinding.instance.addPostFrameCallback((_) {

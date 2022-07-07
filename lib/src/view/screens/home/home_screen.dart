@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trendyol_market/src/view/components/custom_tab_controller.dart';
 import 'package:trendyol_market/src/view/constants/colors.dart';
 
 import 'drawer/filter_drawer.dart';
@@ -19,27 +20,38 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  final List<Widget> _body = const [
-    HomePage(),
-    CategoriesPage(),
-    FavoritesPage(),
-    CartPage(),
-    ProfilePage(),
-  ];
+  late CustomTabController tabController;
+  late List<Widget> body;
 
   final List _appBar = [
     HomePage.appBar,
     CategoriesPage.appBar,
     const PreferredSize(child: SizedBox(), preferredSize: Size.zero),
-    const PreferredSize(child: SizedBox(), preferredSize: Size.zero),
+    CartPage.appBar,
     const PreferredSize(child: SizedBox(), preferredSize: Size.zero),
   ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      tabController.onTap(_selectedIndex);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    tabController = CustomTabController();
+
+    body = [
+      HomePage(id: 0, tabController: tabController),
+      CategoriesPage(id: 1, tabController: tabController),
+      FavoritesPage(id: 2, tabController: tabController),
+      CartPage(id: 3, tabController: tabController),
+      ProfilePage(tabController: tabController),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
           endDrawerEnableOpenDragGesture: false,
           endDrawer: const FilterDrawer(),
           body: IndexedStack(
-            children: _body,
+            children: body,
             index: _selectedIndex,
           ),
           bottomNavigationBar: BottomNavigationBar(

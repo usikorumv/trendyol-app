@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trendyol_market/src/data/repository/products_repository.dart';
+import 'package:trendyol_market/src/data/repository/repository.dart';
 import 'package:trendyol_market/src/logic/blocs/present_products/present_products_bloc.dart';
+import 'package:trendyol_market/src/models/products/product/product.dart';
+import 'package:trendyol_market/src/view/components/custom_tab_controller.dart';
 import 'package:trendyol_market/src/view/constants/colors.dart';
 import 'package:trendyol_market/src/view/screens/home/pages/home/widgets/custom_serch_field.dart';
 
-import '../../../../../models/product/product.dart';
 import '../../widgets/product_card.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key, required this.id, required this.tabController})
+      : super(key: key);
+
+  final CustomTabController tabController;
+  final int id;
 
   static PreferredSizeWidget appBar = AppBar(
     elevation: 0,
     backgroundColor: Colors.transparent,
-    actions: <Widget>[Container()],
+    actions: const [SizedBox()],
     flexibleSpace: Container(
         height: 30,
         margin: const EdgeInsets.symmetric(horizontal: 13, vertical: 6),
@@ -63,108 +68,123 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool inPage = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    inPage = true;
+
+    context.read<PresentProductsBloc>().add(LoadPresentProducts());
+
+    widget.tabController.listeners.add(
+      (page) {
+        if (page == widget.id && inPage) {
+          context.read<PresentProductsBloc>().add(LoadPresentProducts());
+          return;
+        }
+
+        if (page == widget.id) {
+          inPage = true;
+        } else {
+          inPage = false;
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PresentProductsBloc(
-        RepositoryProvider.of<ProductsService>(context),
-      )..add(
-          LoadPresentProductsEvent(),
-        ),
-      child: RefreshIndicator(
-        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        onRefresh: () async {
-          setState(() {
-            context.read<PresentProductsBloc>().add(LoadPresentProductsEvent());
-          });
-        },
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
-                children: const [
-                  Expanded(child: SortButton()),
-                  SizedBox(width: 3),
-                  Expanded(child: FilterDrawerButton()),
-                ],
-              ),
+    return RefreshIndicator(
+      triggerMode: RefreshIndicatorTriggerMode.onEdge,
+      onRefresh: () async {
+        setState(() {
+          context.read<PresentProductsBloc>().add(LoadPresentProducts());
+        });
+      },
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              children: const [
+                Expanded(child: SortButton()),
+                SizedBox(width: 3),
+                Expanded(child: FilterDrawerButton()),
+              ],
             ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: BlocBuilder<PresentProductsBloc, PresentProductsState>(
-                builder: (context, state) {
-                  if (state is PresentProductsLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (state is PresentProductsLoaded) {
-                    List<ProductPresent> products = state.products;
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: BlocBuilder<PresentProductsBloc, PresentProductsState>(
+              builder: (context, state) {
+                if (state is PresentProductsLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (state is PresentProductsLoaded) {
+                  List<ProductPresent> products = state.products;
 
-                    return SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 13),
-                      child: Column(
-                        children: [
-                          for (int i = 0; i < products.length; i += 2)
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
+                  return SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 13),
+                    child: Column(
+                      children: [
+                        for (int i = 0; i < products.length; i += 2)
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ProductCard(
+                                      product: products[i],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 7),
+                                  if (i < products.length - 2)
                                     Expanded(
                                       child: ProductCard(
-                                        product: products[i],
+                                        product: products[i + 1],
                                       ),
-                                    ),
-                                    const SizedBox(width: 7),
-                                    if (i < products.length - 2)
-                                      Expanded(
-                                        child: ProductCard(
-                                          product: products[i + 1],
-                                        ),
-                                      )
-                                    else
-                                      const Spacer(),
-                                  ],
-                                ),
-                                const SizedBox(height: 10)
-                              ],
-                            ),
-                        ],
-                      ),
-                    );
-                  }
-
-                  if(state is PresentProductsError){
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 7),
-                          child: Icon(
-                            Icons.error_outline_rounded,
-                            size: 70,
-                            color: kLightGreyColor[3],
+                                    )
+                                  else
+                                    const Spacer(),
+                                ],
+                              ),
+                              const SizedBox(height: 10)
+                            ],
                           ),
-                        ),
-                        Text(
-                          "Something went Wrong!",
-                          style: TextStyle(
-                            color: kLightGreyColor[3],
-                            fontWeight: FontWeight.w500,
-                            fontSize: 17,
-                          ),
-                        )
                       ],
-                    );
-                  }
-                  return Container();
-                },
-              ),
+                    ),
+                  );
+                }
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 7),
+                      child: Icon(
+                        Icons.error_outline_rounded,
+                        size: 70,
+                        color: kLightGreyColor[3],
+                      ),
+                    ),
+                    Text(
+                      "Something went Wrong!",
+                      style: TextStyle(
+                        color: kLightGreyColor[3],
+                        fontWeight: FontWeight.w500,
+                        fontSize: 17,
+                      ),
+                    )
+                  ],
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

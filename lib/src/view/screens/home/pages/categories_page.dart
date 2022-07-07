@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trendyol_market/src/logic/blocs/categories/categories_bloc.dart';
-import 'package:trendyol_market/src/models/categories.dart';
+import 'package:trendyol_market/src/logic/blocs/present_products/present_products_bloc.dart';
+import 'package:trendyol_market/src/models/categories/category.dart';
+import 'package:trendyol_market/src/models/products/product/product.dart';
+import 'package:trendyol_market/src/view/components/custom_tab_controller.dart';
 
-import '../../../../data/repository/products_repository.dart';
-import '../../../../logic/blocs/present_products/present_products_bloc.dart';
-import '../../../../models/product/product.dart';
 import '../../../components/dynamic_treeview.dart';
 import '../../../constants/colors.dart';
 import '../widgets/product_card.dart';
@@ -13,7 +13,12 @@ import 'home/home_page.dart';
 import 'home/widgets/custom_serch_field.dart';
 
 class CategoriesPage extends StatefulWidget {
-  const CategoriesPage({Key? key}) : super(key: key);
+  const CategoriesPage(
+      {Key? key, required this.id, required this.tabController})
+      : super(key: key);
+
+  final CustomTabController tabController;
+  final int id;
 
   static PreferredSizeWidget appBar = AppBar(
     elevation: 0,
@@ -35,50 +40,69 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
-  bool showCategories = true;
+  bool showCategories = true, inPage = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<CategoriesBloc>().add(LoadCategories());
+
+    widget.tabController.listeners.add(
+      (page) {
+        if (page == widget.id && inPage) {
+          setState(() {
+            showCategories = true;
+          });
+          
+          context.read<CategoriesBloc>().add(LoadCategories());
+          return;
+        }
+
+        if (page == widget.id) {
+          inPage = true;
+        } else {
+          inPage = false;
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CategoriesBloc(
-        RepositoryProvider.of<ProductsService>(context),
-      )..add(
-          LoadCategories(),
-        ),
-      child: BlocBuilder<CategoriesBloc, CategoriesState>(
-        builder: (context, state) {
-          if (state is CategoriesLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (state is CategoriesLoaded) {
-            return content(state.categories);
-          }
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 7),
-                child: Icon(
-                  Icons.error_outline_rounded,
-                  size: 70,
-                  color: kLightGreyColor[3],
-                ),
-              ),
-              Text(
-                "Something went Wrong!",
-                style: TextStyle(
-                  color: kLightGreyColor[3],
-                  fontWeight: FontWeight.w500,
-                  fontSize: 17,
-                ),
-              )
-            ],
+    return BlocBuilder<CategoriesBloc, CategoriesState>(
+      builder: (context, state) {
+        if (state is CategoriesLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        },
-      ),
+        }
+        if (state is CategoriesLoaded) {
+          return content(state.categories);
+        }
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 7),
+              child: Icon(
+                Icons.error_outline_rounded,
+                size: 70,
+                color: kLightGreyColor[3],
+              ),
+            ),
+            Text(
+              "Something went Wrong!",
+              style: TextStyle(
+                color: kLightGreyColor[3],
+                fontWeight: FontWeight.w500,
+                fontSize: 17,
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 
@@ -121,6 +145,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
               onTap: (category) {
                 setState(() {
                   showCategories = false;
+
+                  context
+                      .read<PresentProductsBloc>()
+                      .add(LoadPresentProducts());
                 });
               },
               width: MediaQuery.of(context).size.width,
@@ -135,106 +163,98 @@ class _CategoriesPageState extends State<CategoriesPage> {
               //we need to return a future
               return Future.value(false);
             },
-            child: BlocProvider(
-              create: (context) => PresentProductsBloc(
-                RepositoryProvider.of<ProductsService>(context),
-              )..add(
-                  LoadPresentProductsEvent(),
-                ),
-              child: RefreshIndicator(
-                triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                onRefresh: () async {
-                  setState(() {
-                    context
-                        .read<PresentProductsBloc>()
-                        .add(LoadPresentProductsEvent());
-                  });
-                },
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        children: const [
-                          Expanded(child: SortButton()),
-                          SizedBox(width: 3),
-                          Expanded(child: FilterDrawerButton()),
-                        ],
-                      ),
+            child: RefreshIndicator(
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              onRefresh: () async {
+                setState(() {
+                  context
+                      .read<PresentProductsBloc>()
+                      .add(LoadPresentProducts());
+                });
+              },
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      children: const [
+                        Expanded(child: SortButton()),
+                        SizedBox(width: 3),
+                        Expanded(child: FilterDrawerButton()),
+                      ],
                     ),
-                    const SizedBox(height: 10),
-                    Expanded(
-                      child: BlocBuilder<PresentProductsBloc,
-                          PresentProductsState>(
-                        builder: (context, state) {
-                          if (state is PresentProductsLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          if (state is PresentProductsLoaded) {
-                            List<ProductPresent> products = state.products;
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child:
+                        BlocBuilder<PresentProductsBloc, PresentProductsState>(
+                      builder: (context, state) {
+                        if (state is PresentProductsLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (state is PresentProductsLoaded) {
+                          List<ProductPresent> products = state.products;
 
-                            return SingleChildScrollView(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 13),
-                              child: Column(
-                                children: [
-                                  for (int i = 0; i < products.length; i += 2)
-                                    Column(
-                                      children: [
-                                        Row(
-                                          children: [
+                          return SingleChildScrollView(
+                            padding: const EdgeInsets.symmetric(horizontal: 13),
+                            child: Column(
+                              children: [
+                                for (int i = 0; i < products.length; i += 2)
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: ProductCard(
+                                              product: products[i],
+                                            ),
+                                          ),
+                                          const SizedBox(width: 7),
+                                          if (i < products.length - 2)
                                             Expanded(
                                               child: ProductCard(
-                                                product: products[i],
+                                                product: products[i + 1],
                                               ),
-                                            ),
-                                            const SizedBox(width: 7),
-                                            if (i < products.length - 2)
-                                              Expanded(
-                                                child: ProductCard(
-                                                  product: products[i + 1],
-                                                ),
-                                              )
-                                            else
-                                              const Spacer(),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 10)
-                                      ],
-                                    ),
-                                ],
-                              ),
-                            );
-                          }
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 7),
-                                child: Icon(
-                                  Icons.error_outline_rounded,
-                                  size: 70,
-                                  color: kLightGreyColor[3],
-                                ),
-                              ),
-                              Text(
-                                "Something went Wrong!",
-                                style: TextStyle(
-                                  color: kLightGreyColor[3],
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 17,
-                                ),
-                              )
-                            ],
+                                            )
+                                          else
+                                            const Spacer(),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10)
+                                    ],
+                                  ),
+                              ],
+                            ),
                           );
-                        },
-                      ),
+                        }
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 7),
+                              child: Icon(
+                                Icons.error_outline_rounded,
+                                size: 70,
+                                color: kLightGreyColor[3],
+                              ),
+                            ),
+                            Text(
+                              "Something went Wrong!",
+                              style: TextStyle(
+                                color: kLightGreyColor[3],
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17,
+                              ),
+                            )
+                          ],
+                        );
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );

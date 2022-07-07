@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-class Api {
-  static String api = "http://139.180.146.234:8000";
-}
+import 'package:trendyol_market/src/data/api.dart';
 
 Future<String> login(String username, String password) async {
   var response = await http.post(
