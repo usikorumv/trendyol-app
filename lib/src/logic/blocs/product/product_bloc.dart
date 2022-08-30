@@ -9,7 +9,7 @@ part 'product_event.dart';
 part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  final Service _productsService;
+  final TrendyolService _productsService;
 
   ProductBloc(this._productsService) : super(ProductInitial()) {
     on<LoadProduct>((event, emit) async {
@@ -19,8 +19,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         final Product product = await _productsService.getProduct(event.id);
 
         emit(ProductLoaded(product: product));
-      } catch (e) {
+      } catch (e, s) {
         log(e.toString());
+        log(s.toString());
         emit(ProductError());
       }
     });

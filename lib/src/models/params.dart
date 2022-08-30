@@ -6,7 +6,6 @@ class Params {
   final String priceTo;
   final String category;
   final String brand;
-  final String filter;
   final String search;
 
   const Params({
@@ -15,18 +14,16 @@ class Params {
     this.priceTo = "",
     this.category = "",
     this.brand = "",
-    this.filter = "",
     this.search = "",
   });
 
   Params copyWithMap(Map<String, String> map) {
     return Params(
       name: map['name'] ?? name,
-      priceFrom: map['priceFrom'] ?? priceFrom,
-      priceTo: map['priceTo'] ?? priceTo,
+      priceFrom: map['price_from'] ?? priceFrom,
+      priceTo: map['price_to'] ?? priceTo,
       category: map['category'] ?? category,
       brand: map['brand'] ?? brand,
-      filter: map['filter'] ?? filter,
       search: map['search'] ?? search,
     );
   }
@@ -38,7 +35,6 @@ class Params {
       priceTo: map.containsKey("priceTo") ? '' : priceTo,
       category: map.containsKey("category") ? '' : category,
       brand: map.containsKey("brand") ? '' : brand,
-      filter: map.containsKey("filter") ? '' : filter,
       search: map.containsKey("search") ? '' : search,
     );
   }
@@ -46,7 +42,7 @@ class Params {
   Params copyWith({
     String? name,
     String? priceFrom,
-    String? priceo,
+    String? priceTo,
     String? category,
     String? brand,
     String? filter,
@@ -55,10 +51,9 @@ class Params {
     return Params(
       name: name ?? this.name,
       priceFrom: priceFrom ?? this.priceFrom,
-      priceTo: priceo ?? this.priceTo,
+      priceTo: priceTo ?? this.priceTo,
       category: category ?? this.category,
       brand: brand ?? this.brand,
-      filter: filter ?? this.filter,
       search: search ?? this.search,
     );
   }
@@ -68,17 +63,29 @@ class Params {
 
     result.addAll({'name': name});
     result.addAll({'priceFrom': priceFrom});
-    result.addAll({'priceo': priceTo});
+    result.addAll({'priceTo': priceTo});
     result.addAll({'category': category});
     result.addAll({'brand': brand});
-    result.addAll({'filter': filter});
     result.addAll({'search': search});
 
     return result;
   }
 
   String toFilter() {
-    return toString().replaceAll(RegExp(": "), "=").replaceAll(", ", "&");
+    List<String> filter = [];
+
+    List<String> filterList =
+        toString().substring(7).replaceFirst(")", "").split(", ");
+
+    for (int i = 0; i < filterList.length; i++) {
+      String param = filterList[i];
+
+      if (param.substring(param.indexOf(":") + 1).length > 1) {
+        filter.add(param.replaceAll(": ", "="));
+      }
+    }
+
+    return filter.join("&");
   }
 
   factory Params.fromMap(Map<String, dynamic> map) {
@@ -88,7 +95,6 @@ class Params {
       priceTo: map['priceTo'] ?? '',
       category: map['category'] ?? '',
       brand: map['brand'] ?? '',
-      filter: map['filter'] ?? '',
       search: map['search'] ?? '',
     );
   }
@@ -99,7 +105,7 @@ class Params {
 
   @override
   String toString() {
-    return 'Params(name: $name, priceFrom: $priceFrom, priceTo: $priceTo, category: $category, brand: $brand, filter: $filter, search: $search)';
+    return 'Params(name: $name, price_from: $priceFrom, price_to: $priceTo, category: $category, brand: $brand, search: $search)';
   }
 
   @override
@@ -112,7 +118,6 @@ class Params {
         other.priceTo == priceTo &&
         other.category == category &&
         other.brand == brand &&
-        other.filter == filter &&
         other.search == search;
   }
 
@@ -122,7 +127,6 @@ class Params {
         priceTo.isEmpty &&
         category.isEmpty &&
         brand.isEmpty &&
-        filter.isEmpty &&
         search.isEmpty;
   }
 
@@ -137,7 +141,6 @@ class Params {
         priceTo.hashCode ^
         category.hashCode ^
         brand.hashCode ^
-        filter.hashCode ^
         search.hashCode;
   }
 }

@@ -10,7 +10,7 @@ part 'categories_event.dart';
 part 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
-  final Service _productsService;
+  final TrendyolService _productsService;
 
   CategoriesBloc(this._productsService) : super(CategoriesInitial()) {
     on<LoadCategories>((event, emit) async {
@@ -21,8 +21,9 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
             await _productsService.getCategories();
 
         emit(CategoriesLoaded(categories: categories));
-      } catch (e) {
+      } catch (e, s) {
         log(e.toString());
+        log(s.toString());
         emit(CategoriesError());
       }
     });

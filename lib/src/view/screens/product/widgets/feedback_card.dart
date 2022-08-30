@@ -28,7 +28,7 @@ class FeedbackCard extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             RatingBar(
               currentRating: feedback.rating.floor(),
               maxRating: 5,
@@ -37,18 +37,18 @@ class FeedbackCard extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 6),
+        const SizedBox(height: 6),
         Text(
           feedback.date,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color(0xFFAFAFAF),
             fontSize: 12,
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Text(
           feedback.comment,
-          style: TextStyle(
+          style: const TextStyle(
             color: kTextColor,
             fontWeight: FontWeight.w500,
           ),

@@ -35,7 +35,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with HydratedMixin {
           emit(const AuthFailed());
         }
       } catch (e) {
-        print(e);
         emit(const AuthError());
       }
     });

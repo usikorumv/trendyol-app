@@ -1,178 +1,105 @@
-import 'package:trendyol_market/src/models/categories/category_raw.dart';
-import 'package:trendyol_market/src/models/brands/brand_raw.dart';
-import 'package:trendyol_market/src/models/colors/color_raw.dart';
-import 'package:trendyol_market/src/models/sizes/size_raw.dart';
-import 'package:trendyol_market/src/models/products_cart/product_cart_raw.dart';
-import 'package:trendyol_market/src/models/products/product_raw/product_raw.dart';
-import 'package:trendyol_market/src/models/products/product_raw/review.dart';
-import 'package:trendyol_market/src/models/params.dart';
+import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-// List<ProductRaw> rawProducts = [];
-
-// var url = Uri.parse(api);
-// http.Response response = await http.get(url);
-
-// if (response.statusCode == 200) {
-//   var data = json.decode(response.body);
-
-//   List products = data["products"];
-//   rawProducts = products.map((product) => ProductRaw.fromJson(product)).toList();
-// } else {
-//   print(response.statusCode);
-// }
-
-// return rawProducts;
+import 'package:trendyol_market/src/data/api.dart';
+import 'package:trendyol_market/src/models/categories/category_raw.dart';
+import 'package:trendyol_market/src/models/brands/brand_raw.dart';
+import 'package:trendyol_market/src/models/colors/color_raw.dart';
+import 'package:trendyol_market/src/models/products/product_present_raw.dart';
+import 'package:trendyol_market/src/models/sizes/size_raw.dart';
+import 'package:trendyol_market/src/models/products_cart/product_cart_raw.dart';
+import 'package:trendyol_market/src/models/products/product_raw/product_raw.dart';
+import 'package:trendyol_market/src/models/params.dart';
 
 class TrendyolApiClient {
-  Future<ProductRaw> fetchProduct(int id) async {
-    ProductRaw rawProduct = ProductRaw.fromJson(
-        r'{"id": 1,"images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-SCue-TSPX9aCauDsxtmhhKm8N65bq2RAnQ&usqp=CAU"],"name": "Erkek Siyah Desenli Pamuklu Yazlık Kısa Kollu","description": "Numune ölçüleri: 175 boy 72 kilo m beden. %70 pamuk. Ürünün kalıbı normal slimdir. Kendi bedeninizden 1 bedeb buyuk almanız tavsıye edılır. Çekimlerde renkler ışık farklılığından dolayı değişiklik gösterebilir.\nBu üründen en fazla 10 adet sipariş verilebilir. 10 adetin üzerindeki siparişleri Trendyol iptal etme hakkını saklı tutar.\nKampanya fiyatından satılmak üzere 100 adetten fazla stok sunulmuştur.\nİncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir.\nBir ürün, birden fazla satıcı tarafından satılabilir. Birden fazla satıcı tarafından satışa sunulan ürünlerin satıcıları ürün için belirledikleri fiyata, satıcı puanlarına, teslimat statülerine, ürünlerdeki promosyonlara, kargonun bedava olup olmamasına ve ürünlerin hızlı teslimat ile teslim edilip edilememesine, ürünlerin stok ve kategorileri bilgilerine göre sıralanmaktadır.","link": "/the-brands-4/erkek-siyah-desenli-pamuklu-yazlik-kisa-kollu-p-134123465","discounted_price": 125,"selling_price": 139,"original_price": 110,"campaign": "MAX FASHİON","currency": "TRY","user": "b@gmail.com","category": "gomlek","parent": null,"color": "haki","show_size": "l","brand": "no-brand","reviews": 0,"likes": 0,"sizes": [{"id": 66680,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "s"},{"id": 66681,"in_stock": false,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "m"},{"id": 66682,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "l"},{"id": 66683,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "xl"},{"id": 66684,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "xxl"}],"rating": 0}');
+  dynamic fetchDataFromUrl(String url) async {
+    final response = await http.get(Uri.parse(url));
+    final data = jsonDecode(utf8.decode(response.bodyBytes));
 
-    await Future.delayed(const Duration(seconds: 2));
+    return data;
+  }
+
+  Future<ProductRaw> fetchProduct(int id) async {
+    final data = await fetchDataFromUrl(Api.api + "product_cards/$id/");
+    final product = data;
+
+    ProductRaw rawProduct = ProductRaw.fromMap(product);
 
     return rawProduct;
   }
 
-  Future<List<ProductRaw>> fetchProducts(Params params) async {
-    List<ProductRaw> rawProducts = <ProductRaw>[
-      ProductRaw.fromJson(
-          r'{"id": 1,"images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-SCue-TSPX9aCauDsxtmhhKm8N65bq2RAnQ&usqp=CAU"],"name": "Erkek Siyah Desenli Pamuklu Yazlık Kısa Kollu","description": "Numune ölçüleri: 175 boy 72 kilo m beden. %70 pamuk. Ürünün kalıbı normal slimdir. Kendi bedeninizden 1 bedeb buyuk almanız tavsıye edılır. Çekimlerde renkler ışık farklılığından dolayı değişiklik gösterebilir.\nBu üründen en fazla 10 adet sipariş verilebilir. 10 adetin üzerindeki siparişleri Trendyol iptal etme hakkını saklı tutar.\nKampanya fiyatından satılmak üzere 100 adetten fazla stok sunulmuştur.\nİncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir.\nBir ürün, birden fazla satıcı tarafından satılabilir. Birden fazla satıcı tarafından satışa sunulan ürünlerin satıcıları ürün için belirledikleri fiyata, satıcı puanlarına, teslimat statülerine, ürünlerdeki promosyonlara, kargonun bedava olup olmamasına ve ürünlerin hızlı teslimat ile teslim edilip edilememesine, ürünlerin stok ve kategorileri bilgilerine göre sıralanmaktadır.","link": "/the-brands-4/erkek-siyah-desenli-pamuklu-yazlik-kisa-kollu-p-134123465","discounted_price": 125,"selling_price": 139,"original_price": 110,"campaign": "MAX FASHİON","currency": "TRY","user": "b@gmail.com","category": "gomlek","parent": null,"color": "haki","show_size": "s","brand": "no-brand","reviews": 0,"likes": 0,"sizes": [{"id": 66680,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "s"},{"id": 66681,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "m"},{"id": 66682,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "l"},{"id": 66683,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "xl"},{"id": 66684,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "xxl"}],"rating": 0}'),
-    ];
+  Future<List<ProductPresentRaw>> fetchPresentProducts(Params params, int page,
+      {int pageSize = 10}) async {
+    String url = Api.api + "product_cards/?page=$page&page_size=$pageSize";
 
-    await Future.delayed(const Duration(seconds: 2));
+    if (params.isNotEmpty) {
+      url += "&${params.toFilter()}";
+    }
 
-    return rawProducts;
+    print(url);
+
+    final data = await fetchDataFromUrl(url);
+
+    final products = (data['results'] ?? []) as List;
+
+    List<ProductPresentRaw> rawPresentProducts =
+        products.map((product) => ProductPresentRaw.fromMap(product)).toList();
+
+    return rawPresentProducts;
   }
 
-  Future<List<Review>> fetchReviews(int productId) async {
-    List<Review> reviews = [
-      Review.fromJson(""""{id": 1,
-        "user": "dani@gmail.com",
-        "comment": "тема",
-        "product": 267481227}"""),
-    ];
-
-    await Future.delayed(const Duration(seconds: 2));
+  // TODO: Add reviews
+  Future<List> fetchReviews(int productId) async {
+    List reviews = [];
 
     return reviews;
   }
 
-  Future<List<ProductRaw>> fetchRecommendationProducts(int id) async {
-    List<ProductRaw> rawProducts = [
-      ProductRaw.fromJson("""{"id": 134123465,
-            "images": [],
-            "name": "Erkek Siyah Desenli Pamuklu Yazlık Kısa Kollu",
-            "description": "Numune ölçüleri: 175 boy 72 kilo m beden. %70 pamuk. Ürünün kalıbı normal slimdir. Kendi bedeninizden 1 bedeb buyuk almanız tavsıye edılır. Çekimlerde renkler ışık farklılığından dolayı değişiklik gösterebilir.\nBu üründen en fazla 10 adet sipariş verilebilir. 10 adetin üzerindeki siparişleri Trendyol iptal etme hakkını saklı tutar.\nKampanya fiyatından satılmak üzere 100 adetten fazla stok sunulmuştur.\nİncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir.\nBir ürün, birden fazla satıcı tarafından satılabilir. Birden fazla satıcı tarafından satışa sunulan ürünlerin satıcıları ürün için belirledikleri fiyata, satıcı puanlarına, teslimat statülerine, ürünlerdeki promosyonlara, kargonun bedava olup olmamasına ve ürünlerin hızlı teslimat ile teslim edilip edilememesine, ürünlerin stok ve kategorileri bilgilerine göre sıralanmaktadır.",
-            "link": "/the-brands-4/erkek-siyah-desenli-pamuklu-yazlik-kisa-kollu-p-134123465",
-            "discounted_price": 125,
-            "selling_price": 139,
-            "original_price": 110,
-            "campaign": "MAX FASHİON",
-            "currency": "TRY",
-            "user": "b@gmail.com",
-            "category": "gomlek",
-            "parent": null,
-            "color": "haki",
-            "show_size": "s",
-            "brand": "no-brand",
-            "reviews": 0,
-            "likes": 0,
-            "sizes": [
-                {
-                    "id": 66680,
-                    "in_stock": true,
-                    "price": 115,
-                    "currency": "TRY",
-                    "user": "b@gmail.com",
-                    "product": 134123465,
-                    "value": "s"
-                },
-                {
-                    "id": 66681,
-                    "in_stock": true,
-                    "price": 115,
-                    "currency": "TRY",
-                    "user": "b@gmail.com",
-                    "product": 134123465,
-                    "value": "m"
-                },
-                {
-                    "id": 66682,
-                    "in_stock": true,
-                    "price": 115,
-                    "currency": "TRY",
-                    "user": "b@gmail.com",
-                    "product": 134123465,
-                    "value": "l"
-                },
-                {
-                    "id": 66683,
-                    "in_stock": true,
-                    "price": 115,
-                    "currency": "TRY",
-                    "user": "b@gmail.com",
-                    "product": 134123465,
-                    "value": "xl"
-                },
-                {
-                    "id": 66684,
-                    "in_stock": true,
-                    "price": 115,
-                    "currency": "TRY",
-                    "user": "b@gmail.com",
-                    "product": 134123465,
-                    "value": "xxl"
-                }
-            ],
-            "rating": 0}"""),
-    ];
+  // TODO: Add recommendationProducts
+  Future<List> fetchRecommendationProducts(int id) async {
+    List recommedationProducts = [];
 
-    await Future.delayed(Duration(seconds: 2));
-
-    return rawProducts;
+    return recommedationProducts;
   }
 
   Future<List<CategoryRaw>> fetchCategories() async {
-    List<CategoryRaw> rawCategories = [
-      CategoryRaw.fromJson(
-          '{"slug": "kadın-giyim", "title": "Tesettür Pareo","filter_f": "kadın-giyim"}'),
-      CategoryRaw.fromJson(
-          '{"slug": "tesettur-pareo","title": "Tesettür Pareo","filter_f": "kadın-giyim --> tesettur-giyim-tesettur-pareo","parent": "kadın-giyim"}'),
-    ];
+    final data = await fetchDataFromUrl(Api.api + "parser/categories-list/");
+    final categories = data as List;
 
-    await Future.delayed(Duration(seconds: 2));
+    List<CategoryRaw> rawCategories = categories
+        .map((rawCategory) => CategoryRaw.fromMap(rawCategory))
+        .toList();
 
     return rawCategories;
   }
 
   Future<List<BrandRaw>> fetchBrands() async {
-    List<BrandRaw> rawBrands = [
-      BrandRaw.fromJson(
-          '{"slug": "mh-moony-homewears","brand": "mh-moony-homewears"},')
-    ];
+    final data = await fetchDataFromUrl(Api.api + "parser/brand-list/");
+    final brands = data as List;
 
-    await Future.delayed(Duration(seconds: 2));
+    List<BrandRaw> rawBrands =
+        brands.map((brand) => BrandRaw.fromMap(brand)).toList();
 
     return rawBrands;
   }
 
   Future<List<ColorRaw>> fetchColors() async {
-    List<ColorRaw> rawColors = [
-      ColorRaw.fromJson(
-          '{"slug": "mh-moony-homewears","brand": "mh-moony-homewears"},')
-    ];
+    final data = await fetchDataFromUrl(Api.api + "parser/color-list/");
+    final colors = data as List;
 
-    await Future.delayed(Duration(seconds: 2));
+    List<ColorRaw> rawColors =
+        colors.map((color) => ColorRaw.fromMap(color)).toList();
 
     return rawColors;
   }
 
   Future<List<SizeRaw>> fetchSizes() async {
-    List<SizeRaw> rawSizes = [SizeRaw.fromJson('{"slug": "x", "size": "X"}')];
+    final data = await fetchDataFromUrl(Api.api + "parser/size-list/");
+    final sizes = data as List;
 
-    await Future.delayed(Duration(seconds: 2));
+    List<SizeRaw> rawSizes =
+        sizes.map((color) => SizeRaw.fromMap(color)).toList();
 
     return rawSizes;
   }
@@ -180,7 +107,7 @@ class TrendyolApiClient {
   List<ProductCartRaw> rawCartProducts = [];
 
   Future<List<ProductCartRaw>> fetchCartProducts() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     return rawCartProducts;
   }
@@ -192,12 +119,12 @@ class TrendyolApiClient {
         product: ProductRaw.fromJson(
             r'{"id": 1,"images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-SCue-TSPX9aCauDsxtmhhKm8N65bq2RAnQ&usqp=CAU"],"name": "Erkek Siyah Desenli Pamuklu Yazlık Kısa Kollu","description": "Numune ölçüleri: 175 boy 72 kilo m beden. %70 pamuk. Ürünün kalıbı normal slimdir. Kendi bedeninizden 1 bedeb buyuk almanız tavsıye edılır. Çekimlerde renkler ışık farklılığından dolayı değişiklik gösterebilir.\nBu üründen en fazla 10 adet sipariş verilebilir. 10 adetin üzerindeki siparişleri Trendyol iptal etme hakkını saklı tutar.\nKampanya fiyatından satılmak üzere 100 adetten fazla stok sunulmuştur.\nİncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir.\nBir ürün, birden fazla satıcı tarafından satılabilir. Birden fazla satıcı tarafından satışa sunulan ürünlerin satıcıları ürün için belirledikleri fiyata, satıcı puanlarına, teslimat statülerine, ürünlerdeki promosyonlara, kargonun bedava olup olmamasına ve ürünlerin hızlı teslimat ile teslim edilip edilememesine, ürünlerin stok ve kategorileri bilgilerine göre sıralanmaktadır.","link": "/the-brands-4/erkek-siyah-desenli-pamuklu-yazlik-kisa-kollu-p-134123465","discounted_price": 125,"selling_price": 139,"original_price": 110,"campaign": "MAX FASHİON","currency": "TRY","user": "b@gmail.com","category": "gomlek","parent": null,"color": "haki","show_size": "s","brand": "no-brand","reviews": 0,"likes": 0,"sizes": [{"id": 66680,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "s"},{"id": 66681,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "m"},{"id": 66682,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "l"},{"id": 66683,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "xl"},{"id": 66684,"in_stock": true,"price": 115,"currency": "TRY","user": "b@gmail.com","product": 134123465,"value": "xxl"}],"rating": 0}')));
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
   }
 
   Future removeFromCart(int id) async {
     rawCartProducts.removeWhere((cartProduct) => cartProduct.product.id == id);
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
   }
 }

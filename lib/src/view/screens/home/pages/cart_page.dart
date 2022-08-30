@@ -47,21 +47,6 @@ class _CartPageState extends State<CartPage> {
     inPage = true;
 
     context.read<CartBloc>().add(LoadCart());
-
-    widget.tabController.listeners.add(
-      (page) {
-        if (page == widget.id && inPage) {
-          context.read<CartBloc>().add(LoadCart());
-          return;
-        }
-
-        if (page == widget.id) {
-          inPage = true;
-        } else {
-          inPage = false;
-        }
-      },
-    );
   }
 
   @override
@@ -124,7 +109,9 @@ class _CartPageState extends State<CartPage> {
                 }
 
                 if (state is CartEmpty) {
-                  return Center(
+                  return SizedBox();
+
+                  Center(
                     child: Text(
                       "Cart is Empty",
                       style: TextStyle(

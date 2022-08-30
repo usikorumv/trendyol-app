@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +16,7 @@ import 'package:trendyol_market/src/view/screens/product/widgets/feedback_card.d
 import 'package:trendyol_market/src/view/screens/product/widgets/title_and_products.dart';
 import 'package:trendyol_market/src/view/screens/product/widgets/title_and_widget.dart';
 
+// ignore: unused_import
 import 'widgets/product_image_options.dart';
 import 'widgets/product_size_option.dart';
 
@@ -31,6 +30,8 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  // TODO: Add normal size and color choosing
+  // ignore: unused_field
   int? _currentColorID, _currentSizeID;
 
   @override
@@ -55,35 +56,41 @@ class _ProductScreenState extends State<ProductScreen> {
           Product product = state.product;
 
           _currentColorID = 0;
-          _currentSizeID ??= (product.sizes.map((size) => size.slug).toList())
-              .indexOf(product.startProductSize);
+
+          if (_currentSizeID != null) {
+            _currentSizeID ??=
+                (product.sizes!.map((size) => size.slug).toList())
+                    .indexOf(product.showSize);
+          }
+          _currentSizeID ??= 0;
 
           return content(product);
         }
 
         return Scaffold(
           backgroundColor: kPrimaryColor,
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 7),
-                child: Icon(
-                  Icons.error_outline_rounded,
-                  size: 70,
-                  color: kLightGreyColor[3],
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 7),
+                  child: Icon(
+                    Icons.error_outline_rounded,
+                    size: 70,
+                    color: kLightGreyColor[3],
+                  ),
                 ),
-              ),
-              Text(
-                "Something went Wrong!",
-                style: TextStyle(
-                  color: kLightGreyColor[3],
-                  fontWeight: FontWeight.w500,
-                  fontSize: 17,
-                ),
-              )
-            ],
+                Text(
+                  "Something went Wrong!",
+                  style: TextStyle(
+                    color: kLightGreyColor[3],
+                    fontWeight: FontWeight.w500,
+                    fontSize: 17,
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },
@@ -314,42 +321,48 @@ class _ProductScreenState extends State<ProductScreen> {
                   //       ),
                   //     ],
                   //   ),
-                  Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      TitleAndWidget(
-                        title: "Размер",
-                        child: SingleChildScrollView(
-                          padding: const EdgeInsets.only(left: 20),
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              for (int i = 0; i < product.sizes.length; i++)
-                                Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        if (product.sizes[i].inStock) {
-                                          setState(() {
-                                            _currentSizeID = i;
-                                          });
-                                        }
-                                      },
-                                      child: ProductSizeOption(
-                                        optionState: product.sizes[i].inStock
-                                            ? i == _currentSizeID
-                                                ? OptionState.Selected
-                                                : OptionState.Deselected
-                                            : OptionState.Disabled,
-                                        size: product.sizes[i].name,
-                                      ),
-                                    )),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  product.sizes!.isNotEmpty
+                      ? Column(
+                          children: [
+                            const SizedBox(height: 10),
+                            TitleAndWidget(
+                              title: "Размер",
+                              child: SingleChildScrollView(
+                                padding: const EdgeInsets.only(left: 20),
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    for (int i = 0;
+                                        i < product.sizes!.length;
+                                        i++)
+                                      Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              if (product.sizes![i].inStock) {
+                                                setState(() {
+                                                  _currentSizeID = i;
+                                                });
+                                              }
+                                            },
+                                            child: ProductSizeOption(
+                                              optionState: product
+                                                      .sizes![i].inStock
+                                                  ? i == _currentSizeID
+                                                      ? OptionState.Selected
+                                                      : OptionState.Deselected
+                                                  : OptionState.Disabled,
+                                              size: product.sizes![i].name,
+                                            ),
+                                          )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
                   const SizedBox(height: 13),
                   const Divider(
                     color: Color(0xFFADABAB),
@@ -450,32 +463,40 @@ class _ProductScreenState extends State<ProductScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 23),
-                        for (int i = 0; i < 1; i++)
-                          if (i != 0)
-                            Column(
-                              children: [
-                                const SizedBox(height: 40),
-                                FeedbackCard(feedback: product.feedbacks[i]),
-                              ],
-                            )
-                          else
-                            FeedbackCard(feedback: product.feedbacks[i]),
-                        const SizedBox(height: 28),
-                        RichText(
-                          text: TextSpan(
-                            text: "View all",
-                            style: const TextStyle(
-                              color: kSecondaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                // TODO: VIEW ALL
-                              },
-                          ),
-                        ),
+                        product.feedbacks.isNotEmpty
+                            ? Column(
+                                children: [
+                                  const SizedBox(height: 23),
+                                  for (int i = 0; i < 1; i++)
+                                    if (i != 0)
+                                      Column(
+                                        children: [
+                                          const SizedBox(height: 40),
+                                          FeedbackCard(
+                                              feedback: product.feedbacks[i]),
+                                        ],
+                                      )
+                                    else
+                                      FeedbackCard(
+                                          feedback: product.feedbacks[i]),
+                                  const SizedBox(height: 28),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "View all",
+                                      style: const TextStyle(
+                                        color: kSecondaryColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          // TODO: VIEW ALL
+                                        },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
                       ],
                     ),
                   ),

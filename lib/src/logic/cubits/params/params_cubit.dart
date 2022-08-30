@@ -16,13 +16,13 @@ class ParamsCubit extends Cubit<ParamsState> {
   }
 
   void add(Map<String, String> map) {
-    params.copyWithMap(map);
+    params = params.copyWithMap(map);
 
     // emit(ParamsSelected(params: params));
   }
 
   void remove(Map<String, String> map) {
-    params.removeFromMap(map);
+    params = params.removeFromMap(map);
 
     // if (params.isEmpty) {
     //   emit(ParamsEmpty());

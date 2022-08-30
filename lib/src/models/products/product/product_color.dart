@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+// ignore: unused_import
+import 'package:trendyol_market/src/models/products/product_raw/color.dart';
 
 import 'product.dart';
 
@@ -9,7 +11,7 @@ class ProductColor extends Equatable {
   final String slug;
   final Product product;
 
-  ProductColor({
+  const ProductColor({
     required this.name,
     required this.slug,
     required this.product,
@@ -49,6 +51,13 @@ class ProductColor extends Equatable {
 
   factory ProductColor.fromJson(String source) =>
       ProductColor.fromMap(json.decode(source));
+
+  // TODO: Add factory fromColor
+  // factory ProductColor.fromColor(Color color) => ProductColor(
+  //       name: name,
+  //       slug: slug,
+  //       product: product,
+  //     );
 
   @override
   String toString() =>

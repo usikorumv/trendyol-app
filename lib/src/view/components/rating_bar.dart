@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RatingBar extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const RatingBar(
       {Key? key,
       required this.currentRating,

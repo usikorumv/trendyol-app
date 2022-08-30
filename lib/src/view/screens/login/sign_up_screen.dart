@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +5,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../logic/blocs/auth/auth_bloc.dart';
 
+// TODO: REFACTOR ALL THIS SHIT
 class RegisterInitialWidget extends StatefulWidget {
   const RegisterInitialWidget({
     Key? key,
@@ -163,7 +162,7 @@ class _RegisterInitialWidgetState extends State<RegisterInitialWidget> {
                             _isShowCodeConfirm
                                 ? 'Enter Code'
                                 : "Create account",
-                            style: TextStyle(fontSize: 28),
+                            style: const TextStyle(fontSize: 28),
                           ),
                         ),
                         SizedBox(
@@ -329,12 +328,12 @@ class _RegisterInitialWidgetState extends State<RegisterInitialWidget> {
                                                   Colors.orange),
                                         ),
                                         child: Row(
-                                          children: [
+                                          children: const [
                                             Text(
                                               "Sign up",
                                               style: TextStyle(fontSize: 16),
                                             ),
-                                            const Icon(
+                                            Icon(
                                               Icons.arrow_forward,
                                               size: 20,
                                             )
@@ -417,12 +416,12 @@ class _RegisterInitialWidgetState extends State<RegisterInitialWidget> {
                                                   Colors.orange),
                                         ),
                                         child: Row(
-                                          children: [
+                                          children: const [
                                             Text(
                                               "Send Code",
                                               style: TextStyle(fontSize: 16),
                                             ),
-                                            const Icon(
+                                            Icon(
                                               Icons.arrow_forward,
                                               size: 20,
                                             )
@@ -435,7 +434,7 @@ class _RegisterInitialWidgetState extends State<RegisterInitialWidget> {
                                               widget.usernameController.text;
                                           BlocProvider.of<AuthBloc>(context)
                                               .add(AuthConfirmPassword(
-                                                  email, "", code));
+                                                  email, "", code!));
                                         },
                                       ),
                                     ],
@@ -453,7 +452,7 @@ class _RegisterInitialWidgetState extends State<RegisterInitialWidget> {
                           ),
                           TextSpan(
                               text: 'Sign in',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.orange,
                               ),
                               recognizer: TapGestureRecognizer()

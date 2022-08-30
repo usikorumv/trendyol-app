@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
+// TODO: What is it for
 class ScrollToHide extends StatefulWidget {
   const ScrollToHide({
     Key? key,
@@ -33,26 +33,30 @@ class _ScrollToHideState extends State<ScrollToHide> {
   }
 
   void listen() {
+    // ignore: unused_local_variable
     final direction = widget.controller.position.userScrollDirection;
 
-    if (widget.controller.position.pixels >= 200)
+    if (widget.controller.position.pixels >= 200) {
       show();
-    else
+    } else {
       hide();
+    }
   }
 
   void show() {
-    if (!_isVisible)
+    if (!_isVisible) {
       setState(() {
         _isVisible = true;
       });
+    }
   }
 
   void hide() {
-    if (_isVisible)
+    if (_isVisible) {
       setState(() {
         _isVisible = false;
       });
+    }
   }
 
   @override

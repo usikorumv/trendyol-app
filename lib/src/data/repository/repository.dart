@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:trendyol_market/src/data/provider/trendyol_provider.dart';
 import 'package:trendyol_market/src/models/brands/brand.dart';
 import 'package:trendyol_market/src/models/brands/brand_raw.dart';
@@ -10,16 +12,18 @@ import 'package:trendyol_market/src/models/products/product/feedback.dart';
 import 'package:trendyol_market/src/models/products/product/product.dart';
 import 'package:trendyol_market/src/models/products/product/product_size.dart';
 import 'package:trendyol_market/src/models/products/product/question.dart';
+import 'package:trendyol_market/src/models/products/product_present.dart';
+import 'package:trendyol_market/src/models/products/product_present_raw.dart';
 import 'package:trendyol_market/src/models/products/product_raw/product_raw.dart';
 import 'package:trendyol_market/src/models/products_cart/product_cart.dart';
 import 'package:trendyol_market/src/models/products_cart/product_cart_raw.dart';
 import 'package:trendyol_market/src/models/sizes/size.dart';
 import 'package:trendyol_market/src/models/sizes/size_raw.dart';
 
-class Service {
+class TrendyolService {
   final TrendyolApiClient trendyolApiClient;
 
-  Service({required this.trendyolApiClient});
+  TrendyolService({required this.trendyolApiClient});
 
   Future<Product> getProduct(int id) async {
     ProductRaw rawProduct = await trendyolApiClient.fetchProduct(id);
@@ -29,85 +33,25 @@ class Service {
     // List<ProductRaw> rawRecommendationProducts =
     //     await productsApiClient.fetchRecommendationProducts(rawProduct.id);
 
-    Product product = Product(
-        id: rawProduct.id,
-        imageUrls: rawProduct.images,
-        discountedPrice: rawProduct.discountedPrice,
-        sellingPrice: rawProduct.sellingPrice,
-        originalPrice: rawProduct.originalPrice,
-        name: rawProduct.name,
-        campaign: rawProduct.name,
-        description: rawProduct.description,
-        rating: rawProduct.rating,
-        startProductSize: rawProduct.showSize,
-        // colors: [ProductColor()],
-        sizes: rawProduct.sizes
-            .map((size) => ProductSize(
-                  name: size.value.toUpperCase(),
-                  slug: size.value,
-                  inStock: size.inStock,
-                  currency: size.currency,
-                  value: size.price,
-                ))
-            .toList(),
-        feedbacksCount: 0,
-        // feedbacksCount: reviews.length,
-        feedbacks: const [
-          Feedback(
-              user: "Baitur",
-              comment: "Good deal",
-              date: "12.12.2022",
-              rating: 4.3,
-              likes: 1),
-        ],
-        // feedbacks: reviews
-        //     .map(
-        //       (review) => Feedback(
-        //         user: review.user,
-        //         comment: review.comment,
-        //         date: "",
-        //         rating: 5,
-        //         likes: 1,
-        //       ),
-        //     )
-        //     .toList(),
-        questions: const [
-          Question(
-              user: "Amantur",
-              question: "How to play this movei?",
-              answer: "You have to read captions")
-        ],
-        crossProducts: [],
-        recommendationProducts: [] //  rawRecommendationProducts.map((product) =>
-        //   Product(imageUrls: pro, discountedPrice: discountedPrice, sell ingPrice: sellingPrice, originalPrice: originalPrice, name: name, campaign: campaign, description: description, rating: rating, startProductSize: startProductSize, sizes: sizes, feedbacksCount: feedbacksCount, feedbacks: feedbacks, questions: questions, crossProducts: crossProducts, recommendationProducts: recommendationProducts)
-        // ).toList(),
-        );
+    // TODO: Add method for getting cross products
+
+    // TODO: Add cross and recommendation products
+    Product product = Product.fromProductRaw(rawProduct, const [], const []);
 
     return product;
   }
 
-  Future<List<ProductPresent>> getProducts(
-      {Params params = const Params()}) async {
-    List<ProductPresent> products = [];
+  Future<List<ProductPresent>> getPresentProducts(int page,
+      {Params params = const Params(), pageSize = 10}) async {
+    List<ProductPresentRaw> rawPresentProducts = await trendyolApiClient
+        .fetchPresentProducts(params, page, pageSize: pageSize);
 
-    List<ProductRaw> rawProducts =
-        await trendyolApiClient.fetchProducts(params);
+    List<ProductPresent> presentProducts = rawPresentProducts
+        .map((rawPresentProduct) =>
+            ProductPresent.fromProductPresentRaw(rawPresentProduct))
+        .toList();
 
-    rawProducts.forEach((rawProduct) async {
-      products.add(ProductPresent(
-        id: rawProduct.id,
-        imageUrl: rawProduct.images[0],
-        discountedPrice: rawProduct.discountedPrice,
-        sellingPrice: rawProduct.sellingPrice,
-        originalPrice: rawProduct.originalPrice,
-        name: rawProduct.name,
-        campaign: rawProduct.name,
-        rating: rawProduct.rating,
-        feedbacksCount: 0,
-      ));
-    });
-
-    return products;
+    return presentProducts;
   }
 
   Future<List<Category>> getCategories() async {
@@ -115,14 +59,14 @@ class Service {
 
     List<CategoryRaw> rawCategories = await trendyolApiClient.fetchCategories();
 
-    rawCategories.forEach((rawCategory) {
+    for (var rawCategory in rawCategories) {
       categories.add(Category(
         slug: rawCategory.slug,
         title: rawCategory.title,
         filter: rawCategory.filter_f,
         parent: rawCategory.parent,
       ));
-    });
+    }
 
     return categories;
   }
@@ -132,12 +76,12 @@ class Service {
 
     List<BrandRaw> rawBrands = await trendyolApiClient.fetchBrands();
 
-    rawBrands.forEach((rawBrand) {
+    for (var rawBrand in rawBrands) {
       brands.add(Brand(
         slug: rawBrand.slug,
-        title: rawBrand.brand,
+        title: rawBrand.name,
       ));
-    });
+    }
 
     return brands;
   }
@@ -147,12 +91,12 @@ class Service {
 
     List<ColorRaw> rawColors = await trendyolApiClient.fetchColors();
 
-    rawColors.forEach((rawColor) {
+    for (var rawColor in rawColors) {
       colors.add(Color(
         slug: rawColor.slug,
-        title: rawColor.color,
+        title: rawColor.name,
       ));
-    });
+    }
 
     return colors;
   }
@@ -162,12 +106,12 @@ class Service {
 
     List<SizeRaw> rawSizes = await trendyolApiClient.fetchSizes();
 
-    rawSizes.forEach((rawSize) {
+    for (var rawSize in rawSizes) {
       sizes.add(Size(
         slug: rawSize.slug,
         title: rawSize.size,
       ));
-    });
+    }
 
     return sizes;
   }

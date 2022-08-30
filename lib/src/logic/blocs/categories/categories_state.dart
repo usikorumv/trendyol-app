@@ -14,7 +14,7 @@ class CategoriesLoading extends CategoriesState {}
 class CategoriesLoaded extends CategoriesState {
   final List<Category> categories;
 
-  CategoriesLoaded({required this.categories});
+  const CategoriesLoaded({required this.categories});
 
   @override
   List<Object> get props => [categories];

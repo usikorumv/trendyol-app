@@ -45,12 +45,11 @@ dependencies:
 
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
+  bloc_concurrency: ^0.2.0
   hydrated_bloc: ^8.1.0
   internet_connection_checker: ^0.0.1+4
   sizer: ^2.0.15
   path_provider: ^2.0.11
-
-
 
 dev_dependencies:
   flutter_lints: ^1.0.0

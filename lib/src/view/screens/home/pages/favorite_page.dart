@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trendyol_market/src/view/components/custom_tab_controller.dart';
 
 import '../../../constants/colors.dart';
+// ignore: unused_import
 import '../widgets/favourite_list_tile_widget.dart';
 import 'home/widgets/custom_serch_field.dart';
 
