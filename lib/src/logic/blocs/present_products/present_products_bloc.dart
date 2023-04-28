@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:trendyol_market/src/data/repository/repository.dart';
 import 'package:trendyol_market/src/models/params.dart';
@@ -44,27 +43,29 @@ class PresentProductsBloc
       }
     });
 
-    on<NextProductsPageEvent>((event, emit) async {
-      try {
-        emit(PresentProductsLoading());
+    on<NextProductsPageEvent>(
+      (event, emit) async {
+        try {
+          emit(PresentProductsLoading());
 
-        currentPage += 1;
+          currentPage += 1;
 
-        final List<ProductPresent> products = await _productsService
-            .getPresentProducts(currentPage, params: params, pageSize: 4);
+          final List<ProductPresent> products = await _productsService
+              .getPresentProducts(currentPage, params: params, pageSize: 4);
 
-        if (products.isEmpty) {
-          emit(PresentProductsEmpty());
-        } else {
-          _presentProducts.addAll(products);
-          emit(PresentProductsLoaded());
+          if (products.isEmpty) {
+            emit(PresentProductsEmpty());
+          } else {
+            _presentProducts.addAll(products);
+            emit(PresentProductsLoaded());
+          }
+        } catch (e, s) {
+          log(e.toString());
+          log(s.toString());
+
+          emit(PresentProductsError());
         }
-      } catch (e, s) {
-        log(e.toString());
-        log(s.toString());
-
-        emit(PresentProductsError());
-      }
-    }, transformer: restartable());
+      },
+    );
   }
 }
