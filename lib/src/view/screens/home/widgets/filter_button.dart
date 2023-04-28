@@ -19,7 +19,7 @@ class FilterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String _title = title ?? "Title";
-    List<String> _elements = ["Element 1", "Element 2"];
+    List<String> _elements = elements ?? ["Element 1", "Element 2"];
 
     return Column(
       children: [
@@ -27,27 +27,30 @@ class FilterButton extends StatelessWidget {
           padding: const EdgeInsets.only(left: 21, right: 18),
           child: Row(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _title,
-                    style: const TextStyle(
-                      color: kTextColor,
-                      fontSize: 16,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _title,
+                      style: const TextStyle(
+                        color: kTextColor,
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 1.8),
-                  Text(
-                    _elements.join(", "),
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: kDarkGreyColor[0],
-                      fontSize: 14,
+                    const SizedBox(height: 1.8),
+                    Text(
+                      _elements.join(", "),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        color: kDarkGreyColor[0],
+                        fontSize: 14,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                ],
+                    const SizedBox(height: 8),
+                  ],
+                ),
               ),
               const Spacer(),
               IconButton(
@@ -60,7 +63,7 @@ class FilterButton extends StatelessWidget {
                   color: kTextColor,
                   size: 18,
                 ),
-              )
+              ),
             ],
           ),
         ),

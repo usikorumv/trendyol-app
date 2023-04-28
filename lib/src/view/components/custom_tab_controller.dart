@@ -1,8 +1,8 @@
 class CustomTabController {
   void onTap(int page) {
-    listeners.forEach((function) {
+    for (var function in listeners) {
       function(page);
-    });
+    }
   }
 
   List<Function(int)> listeners = [];

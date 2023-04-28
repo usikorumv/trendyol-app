@@ -103,12 +103,12 @@ class CartListTileWidget extends StatelessWidget {
                         ),
                         RichText(
                             text: TextSpan(children: [
-                          TextSpan(
+                          const TextSpan(
                               text: "Размер: ",
                               style:
                                   TextStyle(fontSize: 15, color: Colors.grey)),
                           TextSpan(
-                              text: product.startProductSize,
+                              text: product.showSize,
                               style: TextStyle(
                                   color: Colors.grey.shade600,
                                   fontWeight: FontWeight.bold))
@@ -140,13 +140,13 @@ class CartListTileWidget extends StatelessWidget {
                                       text: TextSpan(children: [
                                     TextSpan(
                                         text: product.originalPrice.toString(),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 18,
                                             color: Colors.grey,
                                             decoration:
                                                 TextDecoration.lineThrough,
                                             fontWeight: FontWeight.bold)),
-                                    TextSpan(
+                                    const TextSpan(
                                         text: " tmt",
                                         style: TextStyle(
                                             fontSize: 15,
@@ -160,18 +160,18 @@ class CartListTileWidget extends StatelessWidget {
                                       text: TextSpan(children: [
                                     TextSpan(
                                         text: product.sellingPrice.toString(),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 24,
                                             color: Colors.orange,
                                             fontWeight: FontWeight.bold)),
-                                    TextSpan(
+                                    const TextSpan(
                                         text: " tmt",
                                         style: TextStyle(
                                             fontSize: 21,
                                             color: Colors.orange,
                                             fontWeight: FontWeight.bold))
                                   ])),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                 ],

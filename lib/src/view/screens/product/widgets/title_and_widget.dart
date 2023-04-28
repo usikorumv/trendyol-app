@@ -15,17 +15,17 @@ class TitleAndWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 20),
+          padding: const EdgeInsets.only(left: 20),
           child: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: kTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
-        SizedBox(height: 3),
+        const SizedBox(height: 3),
         child,
       ],
     );

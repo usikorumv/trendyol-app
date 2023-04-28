@@ -3,14 +3,15 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class Size extends Equatable {
-  int id;
-  bool inStock;
-  double price;
-  String currency;
-  String user;
-  int product;
-  String value;
-  Size({
+  final int id;
+  final bool inStock;
+  final double price;
+  final String currency;
+  final String user;
+  final int product;
+  final String value;
+
+  const Size({
     required this.id,
     required this.inStock,
     required this.price,

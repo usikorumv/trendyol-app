@@ -11,7 +11,7 @@ part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  final Service _productsService;
+  final TrendyolService _productsService;
 
   List<Product> cartProducts = [];
 

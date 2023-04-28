@@ -69,10 +69,10 @@ class _DynamicTreeViewOriState extends State<DynamicTreeView> {
       ..sort((i, j) => i.compareTo(j));
 
     var widgets = <ParentWidget>[];
-    k.forEach((f) {
+    for (var f in k) {
       ParentWidget p = buildWidget(f, "");
       widgets.add(p);
-    });
+    }
     setState(() {
       treeView = widgets;
     });

@@ -1,13 +1,13 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
-import 'package:trendyol_market/src/models/products/product/product.dart';
+import 'package:trendyol_market/src/models/products/product_present.dart';
 import 'package:trendyol_market/src/view/components/rating_bar.dart';
 import 'package:trendyol_market/src/view/constants/colors.dart';
 import 'package:trendyol_market/src/view/screens/product/product_screen.dart';
 
-
-
-import '../../../constants/styles.dart';
+import '../constants/styles.dart';
 
 enum ProductCardType {
   Usual,
@@ -81,9 +81,28 @@ class RegularProductCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          SizedBox(
+            height: 255,
+            child: Image.network(
+              product.imageUrl,
+              fit: BoxFit.cover,
+              loadingBuilder:
+                  (context, Widget child, ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
+                  ),
+                );
+              },
+              errorBuilder:
+                  (context, Object exception, StackTrace? stackTrace) {
+                return Image.asset("assets/images/image-error.png");
+              },
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(6, 5.75, 6, 5),
@@ -130,14 +149,28 @@ class RegularProductCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 6),
-                  child: Text(
-                    product.name,
+                  child: RichText(
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: product.campaign + " ",
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.5,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextSpan(
+                          text: product.name,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -176,7 +209,6 @@ class CartProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
     return Container(
       height: 182,
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -257,7 +289,7 @@ class CartProductCard extends StatelessWidget {
                                 horizontal: 23,
                                 vertical: 5,
                               ),
-                              child: Text("1"),
+                              child: const Text("1"),
                             ),
                             IconButton(
                               onPressed: () {},
@@ -270,7 +302,7 @@ class CartProductCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                       ],
                     ),
                     Row(

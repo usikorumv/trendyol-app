@@ -13,11 +13,6 @@ class PresentProductsError extends PresentProductsState {}
 
 class PresentProductsLoading extends PresentProductsState {}
 
-class PresentProductsLoaded extends PresentProductsState {
-  final List<ProductPresent> products;
+class PresentProductsEmpty extends PresentProductsState {}
 
-  PresentProductsLoaded({required this.products});
-
-  @override
-  List<Object> get props => [products];
-}
+class PresentProductsLoaded extends PresentProductsState {}

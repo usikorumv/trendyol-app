@@ -27,7 +27,6 @@ Future<bool> register(String username, String password) async {
       "password_confirmation": password,
     },
   );
-  print(response.body);
   if (response.statusCode >= 400) throw UnimplementedError();
   if (response.statusCode == 201 || response.statusCode == 200) {
     return true;

@@ -28,7 +28,6 @@ class LoginScreen extends StatelessWidget {
                   passwordController: passwordController,
                 );
               } else if (state is AuthSuccess || state.email != "") {
-                String token = BlocProvider.of<AuthBloc>(context).state.token;
                 return const HomeScreen();
               }
               return const Center(

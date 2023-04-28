@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trendyol_market/src/logic/blocs/categories/categories_bloc.dart';
 import 'package:trendyol_market/src/logic/blocs/present_products/present_products_bloc.dart';
 import 'package:trendyol_market/src/models/categories/category.dart';
-import 'package:trendyol_market/src/models/products/product/product.dart';
+import 'package:trendyol_market/src/models/params.dart';
+
 import 'package:trendyol_market/src/view/components/custom_tab_controller.dart';
 
 import '../../../components/dynamic_treeview.dart';
 import '../../../constants/colors.dart';
-import '../widgets/product_card.dart';
+import '../../../components/product_card.dart';
 import 'home/home_page.dart';
 import 'home/widgets/custom_serch_field.dart';
 
@@ -50,13 +51,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
     widget.tabController.listeners.add(
       (page) {
-        if (page == widget.id && inPage) {
-          setState(() {
-            showCategories = true;
-          });
-          
-          context.read<CategoriesBloc>().add(LoadCategories());
-          return;
+        if (inPage && !showCategories) {
+          showCategories = true;
+          setState(() {});
         }
 
         if (page == widget.id) {
@@ -80,27 +77,28 @@ class _CategoriesPageState extends State<CategoriesPage> {
         if (state is CategoriesLoaded) {
           return content(state.categories);
         }
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 7),
-              child: Icon(
-                Icons.error_outline_rounded,
-                size: 70,
-                color: kLightGreyColor[3],
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 7),
+                child: Icon(
+                  Icons.error_outline_rounded,
+                  size: 70,
+                  color: kLightGreyColor[3],
+                ),
               ),
-            ),
-            Text(
-              "Something went Wrong!",
-              style: TextStyle(
-                color: kLightGreyColor[3],
-                fontWeight: FontWeight.w500,
-                fontSize: 17,
+              Text(
+                "Something went Wrong!",
+                style: TextStyle(
+                  color: kLightGreyColor[3],
+                  fontWeight: FontWeight.w500,
+                  fontSize: 17,
+                ),
               ),
-            )
-          ],
+            ],
+          ),
         );
       },
     );
@@ -109,16 +107,16 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget content(List<Category> categories) {
     List<DataModel> data = [];
 
-    categories.forEach(
-      (category) => data.add(
+    for (var category in categories) {
+      data.add(
         DataModel(
           id: category.slug,
           parentId: category.parent,
           name: category.title,
           extras: {"filter": category.filter},
         ),
-      ),
-    );
+      );
+    }
 
     return showCategories
         ? SingleChildScrollView(
@@ -146,118 +144,98 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 setState(() {
                   showCategories = false;
 
-                  context
-                      .read<PresentProductsBloc>()
-                      .add(LoadPresentProducts());
+                  context.read<PresentProductsBloc>().add(
+                        LoadPresentProducts(params: Params()),
+                      );
                 });
               },
               width: MediaQuery.of(context).size.width,
             ),
           )
-        : WillPopScope(
-            onWillPop: () {
-              //trigger leaving and use own data
-              setState(() {
-                showCategories = true;
-              });
-              //we need to return a future
-              return Future.value(false);
-            },
-            child: RefreshIndicator(
-              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-              onRefresh: () async {
-                setState(() {
-                  context
-                      .read<PresentProductsBloc>()
-                      .add(LoadPresentProducts());
-                });
-              },
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Row(
-                      children: const [
-                        Expanded(child: SortButton()),
-                        SizedBox(width: 3),
-                        Expanded(child: FilterDrawerButton()),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Expanded(
-                    child:
-                        BlocBuilder<PresentProductsBloc, PresentProductsState>(
-                      builder: (context, state) {
-                        if (state is PresentProductsLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (state is PresentProductsLoaded) {
-                          List<ProductPresent> products = state.products;
-
-                          return SingleChildScrollView(
-                            padding: const EdgeInsets.symmetric(horizontal: 13),
-                            child: Column(
-                              children: [
-                                for (int i = 0; i < products.length; i += 2)
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: ProductCard(
-                                              product: products[i],
-                                            ),
-                                          ),
-                                          const SizedBox(width: 7),
-                                          if (i < products.length - 2)
-                                            Expanded(
-                                              child: ProductCard(
-                                                product: products[i + 1],
-                                              ),
-                                            )
-                                          else
-                                            const Spacer(),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 10)
-                                    ],
-                                  ),
-                              ],
-                            ),
-                          );
-                        }
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 7),
-                              child: Icon(
-                                Icons.error_outline_rounded,
-                                size: 70,
-                                color: kLightGreyColor[3],
-                              ),
-                            ),
-                            Text(
-                              "Something went Wrong!",
-                              style: TextStyle(
-                                color: kLightGreyColor[3],
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17,
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                    ),
-                  ),
+        : Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                children: const [
+                  Expanded(child: SortButton()),
+                  SizedBox(width: 3),
+                  Expanded(child: FilterDrawerButton()),
                 ],
               ),
             ),
-          );
+            const SizedBox(height: 10),
+            Expanded(
+              child: BlocBuilder<PresentProductsBloc, PresentProductsState>(
+                builder: (context, state) {
+                  if (state is PresentProductsLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (state is PresentProductsLoaded) {
+                    List products =
+                        context.read<PresentProductsBloc>().presentProducts;
+
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 13),
+                      child: Column(
+                        children: [
+                          for (int i = 0; i < products.length; i += 2)
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ProductCard(
+                                        product: products[i],
+                                      ),
+                                    ),
+                                    const SizedBox(width: 7),
+                                    if (i < products.length - 2)
+                                      Expanded(
+                                        child: ProductCard(
+                                          product: products[i + 1],
+                                        ),
+                                      )
+                                    else
+                                      const Spacer(),
+                                  ],
+                                ),
+                                const SizedBox(height: 10)
+                              ],
+                            ),
+                        ],
+                      ),
+                    );
+                  }
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 7),
+                        child: Icon(
+                          Icons.error_outline_rounded,
+                          size: 70,
+                          color: kLightGreyColor[3],
+                        ),
+                      ),
+                      Text(
+                        "Something went Wrong!",
+                        style: TextStyle(
+                          color: kLightGreyColor[3],
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17,
+                        ),
+                      )
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
+        );
   }
 }
 

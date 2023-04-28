@@ -2,54 +2,53 @@ import 'dart:convert';
 
 class BrandRaw {
   final String slug;
-  final String brand;
+  final String name;
   BrandRaw({
     required this.slug,
-    required this.brand,
+    required this.name,
   });
 
   BrandRaw copyWith({
     String? slug,
-    String? brand,
+    String? name,
   }) {
     return BrandRaw(
       slug: slug ?? this.slug,
-      brand: brand ?? this.brand,
+      name: name ?? this.name,
     );
   }
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-  
+
     result.addAll({'slug': slug});
-    result.addAll({'brand': brand});
-  
+    result.addAll({'name': name});
+
     return result;
   }
 
   factory BrandRaw.fromMap(Map<String, dynamic> map) {
     return BrandRaw(
       slug: map['slug'] ?? '',
-      brand: map['brand'] ?? '',
+      name: map['name'] ?? '',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory BrandRaw.fromJson(String source) => BrandRaw.fromMap(json.decode(source));
+  factory BrandRaw.fromJson(String source) =>
+      BrandRaw.fromMap(json.decode(source));
 
   @override
-  String toString() => 'BrandRaw(slug: $slug, brand: $brand)';
+  String toString() => 'BrandRaw(slug: $slug, name: $name)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
-    return other is BrandRaw &&
-      other.slug == slug &&
-      other.brand == brand;
+
+    return other is BrandRaw && other.slug == slug && other.name == name;
   }
 
   @override
-  int get hashCode => slug.hashCode ^ brand.hashCode;
+  int get hashCode => slug.hashCode ^ name.hashCode;
 }

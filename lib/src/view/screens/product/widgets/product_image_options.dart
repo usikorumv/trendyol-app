@@ -36,7 +36,7 @@ class _ProductImageOptionState extends State<ProductImageOption> {
         });
       },
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
           border: _optionState == OptionState.Selected
               ? Border.all(color: kSecondaryColor, width: 2)
@@ -59,9 +59,9 @@ class _ProductImageOptionState extends State<ProductImageOption> {
   Size _getSizeFromOptionState(OptionState optionState) {
     switch (optionState) {
       case OptionState.Selected:
-        return Size(66, 84);
+        return const Size(66, 84);
       default:
-        return Size(56, 71);
+        return const Size(56, 71);
     }
   }
 }

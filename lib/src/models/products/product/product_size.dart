@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+// ignore: unused_import
+import 'package:trendyol_market/src/models/products/product_raw/size.dart';
 
 class ProductSize extends Equatable {
   final String name;
@@ -9,7 +11,7 @@ class ProductSize extends Equatable {
   final bool inStock;
   final double value;
 
-  ProductSize({
+  const ProductSize({
     required this.name,
     required this.slug,
     required this.currency,
@@ -59,6 +61,15 @@ class ProductSize extends Equatable {
 
   factory ProductSize.fromJson(String source) =>
       ProductSize.fromMap(json.decode(source));
+
+  // TODO: Add factory fromSize
+  // factory ProductSize.fromSize(Size size) => ProductSize(
+  //       name: name,
+  //       slug: slug,
+  //       currency: currency,
+  //       inStock: inStock,
+  //       value: value,
+  //     );
 
   @override
   String toString() {
